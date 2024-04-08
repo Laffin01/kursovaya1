@@ -189,7 +189,7 @@ void MainWindow::on_tableView_2_clicked()
 {
     QSqlQuery query;
     ui->tableView_2->setSelectionBehavior(QAbstractItemView::SelectRows);
-    QModelIndexList selectedIndexes = ui->tableView_2->selectionModel()->selectedIndexes();
+     selectedIndexes = ui->tableView_2->selectionModel()->selectedIndexes();
     if (!selectedIndexes.isEmpty()) {
         int selectedIndex = selectedIndexes.first().row();
         ui->lineEdit_3->setText(conf_name[selectedIndex]);
@@ -215,7 +215,8 @@ void MainWindow::on_pushButton_3_clicked()
     QSqlQuery query;
     QDateTime currentDateTime = QDateTime::currentDateTime();
     QString confirmationText = "<h2>Подтверждение заказа:</h2><br>";
-    confirmationText += "<b>Модель:</b> " + ui->lineEdit_3->text() + "<br>";
+    confirmationText += "<b>Комплектація:</b> " + ui->lineEdit_3->text() + "<br>";
+    confirmationText += "<b>Модель:</b> " + ui->lineEdit_5->text() + "<br>";
     confirmationText += "<b>Цвет:</b> " + ui->lineEdit_4->text() + "<br>";
     confirmationText += "<b>Количество дверей:</b> " + ui->lineEdit_6->text() + "<br>";
     confirmationText += "<b>Количество мест:</b> " + ui->lineEdit_7->text() + "<br>";
@@ -240,7 +241,7 @@ void MainWindow::on_pushButton_3_clicked()
     textDoc.drawContents(&painter);
     painter.end();
     QString num = Mainmenu::check_number;
-    query.prepare("SELECT ");
+    query.prepare("SELECT =:");
     query.bindValue("",num);
      query.prepare("INSERT INTO zamovlennya (town, password, fib, number_of_the_phone, birthdate) VALUES (?, ?, ?, ?, ?)");
 

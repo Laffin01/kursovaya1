@@ -22,6 +22,7 @@ CREATE TABLE `car_showroom`.`zamovlennya` (
   `Модель` VARCHAR(45) NOT NULL,
   `Рік випуску` YEAR(4) NOT NULL,
   `Комплектація` VARCHAR(100) NOT NULL,
-  `Ціна` INT NOT NULL;
+  `Ціна` INT NOT NULL,
+  `Дата оформлення замовлення` DATE NOT NULL)
 
 

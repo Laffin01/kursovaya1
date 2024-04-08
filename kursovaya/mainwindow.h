@@ -39,6 +39,7 @@ private slots:
 private:
 
    Ui::MainWindow *ui;
+    QModelIndexList selectedIndexes;
    Profile_win pw;
     QString name_model;
    QStringList model_name_List;

@@ -11,7 +11,7 @@ void Profile_win::SetInfo(QString num)
 {
     QSqlQuery query;
     qDebug()<< num;
-    query.prepare("SELECT client_id, town, password, fib, birthdate FROM _client WHERE number_of_the_phone =:numberphone");
+    query.prepare("SELECT employee_id, town, password, fib, birthdate FROM employee WHERE number_of_the_phone =:numberphone");
     query.bindValue(":numberphone", num);
     if (!query.exec()) {
         qDebug() << "Ошибка выполнения запроса:";
@@ -25,11 +25,13 @@ void Profile_win::SetInfo(QString num)
         ui->dateEdit->setDate(birthdate);
         ui->lineEdit_3->setText(password);
         ui->lineEdit_4->setText(town);
-        this->show();  // Показать текущее окно
+        this->show();
     } else {
         qDebug() << "Запрос не вернул результатов.";
     }
 }
+
+
 
 Profile_win::~Profile_win()
 {

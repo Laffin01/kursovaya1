@@ -75,7 +75,7 @@ void Mainmenu::on_autorization_clicked()
          checkinname = ui->namelabel->text();
 
         QSqlQuery query;
-        query.prepare("SELECT number_of_the_phone, password FROM _client WHERE number_of_the_phone = :checkinname AND password = :checknpassword");
+        query.prepare("SELECT number_of_the_phone, password FROM employee WHERE number_of_the_phone = :checkinname AND password = :checknpassword");
         query.bindValue(":checkinname", checkinname);
         query.bindValue(":checknpassword", checknpassword);
         query.exec();
@@ -125,7 +125,7 @@ void Mainmenu::on_pushButton_4_clicked()
         QDate birthdate = ui->dateEdit->date();
         QString town = ui->lineEdit_4->text();
 
-        query.prepare("INSERT INTO _client (town, password, fib, number_of_the_phone, birthdate) VALUES (?, ?, ?, ?, ?)");
+        query.prepare("INSERT INTO employee (town, password, fib, number_of_the_phone, birthdate) VALUES (?, ?, ?, ?, ?)");
         query.addBindValue(town);
         query.addBindValue(password1);
         query.addBindValue(fib);

@@ -6,6 +6,7 @@
 #include <QTableWidget>
 #include <QAbstractItemModel>
 #include <QApplication>
+
 #include <qspoiler.h>
 #include "profile_win.h"
 #include "DbConnection.h"
@@ -31,15 +32,21 @@ private slots:
     void on_checkBox_stateChanged();
     void on_pushButton_clicked();
     void on_comboBox_2_currentIndexChanged();
-    void on_tableView_2_clicked();
+    void on_tableView_2_clicked(const QModelIndex &index);
     void on_pushButton_3_clicked();
    void on_pushButton_2_clicked();
     void on_pushButton_4_clicked();
+      void Insert_info_to_the_table();
+
+    void on_pushButton_5_clicked();
 
 private:
 
    Ui::MainWindow *ui;
+    QString brand;
     QModelIndexList selectedIndexes;
+   int selectedIndex;
+       int IndextableView_2;
    Profile_win pw;
     QString name_model;
    QStringList model_name_List;

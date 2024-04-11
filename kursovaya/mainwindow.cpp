@@ -2,6 +2,7 @@
 #include <QApplication>
 #include <QVBoxLayout>
 #include <QScreen>
+
 #include <QTableView>
 #include <QSqlDatabase>
 #include <QSqlQuery>
@@ -12,9 +13,12 @@
 #include <QSqlRecord>
 #include <QFile>
 #include <QDir>
+#include <QToolButton>
 #include <QDesktopServices>
 #include <QPdfWriter>
 #include <QPainter>
+#include <QtSvgWidgets/QSvgWidget>
+
 #include "mainwindow.h"
 #include "mainmenu.h"
 
@@ -44,6 +48,13 @@ MainWindow::MainWindow(QWidget *parent)
     ui->vid->setPlaceholderText(QString("Від"));
     ui->do_1->setPlaceholderText(QString("До"));
     ui->lineEdit->setPlaceholderText(QString("Пошук"));
+    QPixmap pixmap("D:/c++/kursovaya/arrow.svg");
+
+    QIcon icon(pixmap);
+    ui->pushButton_5->setGeometry(0,0,50,50);
+    ui->pushButton_5->setIconSize(QSize(50,50));
+    ui->pushButton_5->setStyleSheet("background-color: transparent; border: none;");
+    ui->pushButton_5->setIcon(icon);
 
 }
 
@@ -185,13 +196,18 @@ void MainWindow::on_comboBox_2_currentIndexChanged()
 }
 
 
-void MainWindow::on_tableView_2_clicked()
+void MainWindow::on_tableView_2_clicked(const QModelIndex &index)
 {
     QSqlQuery query;
+
+    QAbstractItemModel *model = ui->tableView_2->model();
+    QModelIndex index_1 = model->index(index.row(), 1);
+     brand = model->data(index_1, Qt::DisplayRole).toString();
+
     ui->tableView_2->setSelectionBehavior(QAbstractItemView::SelectRows);
-     selectedIndexes = ui->tableView_2->selectionModel()->selectedIndexes();
+    selectedIndexes = ui->tableView_2->selectionModel()->selectedIndexes();
     if (!selectedIndexes.isEmpty()) {
-        int selectedIndex = selectedIndexes.first().row();
+        selectedIndex = selectedIndexes.first().row();
         ui->lineEdit_3->setText(conf_name[selectedIndex]);
          ui->lineEdit_5->setText(model_name_List[selectedIndex]);
         query.prepare("SELECT price, color, doors, seats, fuel_type, transmission, engine_volume, fuel_consumption, power FROM configurations WHERE configuration_name = :conf_name");
@@ -212,7 +228,9 @@ void MainWindow::on_tableView_2_clicked()
 
 void MainWindow::on_pushButton_3_clicked()
 {
-    QSqlQuery query;
+
+    ui->stackedWidget->setCurrentIndex(1);
+    ui->stackedWidget->show();
     QDateTime currentDateTime = QDateTime::currentDateTime();
     QString confirmationText = "<h2>Подтверждение заказа:</h2><br>";
     confirmationText += "<b>Комплектація:</b> " + ui->lineEdit_3->text() + "<br>";
@@ -240,12 +258,8 @@ void MainWindow::on_pushButton_3_clicked()
     textDoc.setTextWidth(pdfWriter.width());
     textDoc.drawContents(&painter);
     painter.end();
-    QString num = Mainmenu::check_number;
-    query.prepare("SELECT =:");
-    query.bindValue("",num);
-     query.prepare("INSERT INTO zamovlennya (town, password, fib, number_of_the_phone, birthdate) VALUES (?, ?, ?, ?, ?)");
-
     QDesktopServices::openUrl(QUrl::fromLocalFile(QDir::currentPath() + "/OrderConfirmation.pdf"));
+    //Insert_info_to_the_table();
 }
 
 void MainWindow::on_pushButton_2_clicked()
@@ -272,3 +286,39 @@ void MainWindow::on_pushButton_2_clicked()
         numberphone = Mainmenu::check_number;
         pw.SetInfo(numberphone);
     }
+
+
+
+    void MainWindow::Insert_info_to_the_table()
+    {
+        QSqlQuery query;
+        QString num = Mainmenu::check_number;
+        QDate date = QDate::currentDate();
+        int employee_id=0;
+        query.prepare("SELECT employee_id FROM employee WHERE  number_of_the_phone  =:number");
+        query.bindValue(":number", num);
+        if(query.exec() && query.next()) {
+            employee_id = query.value("employee_id").toInt();
+        } else {
+            qDebug() << "Query failed: " << query.lastError();
+        }
+        qDebug() << brand;
+        query.prepare("INSERT INTO zamovlennya (employee_id, `Марка`, `Модель`, `Комплектація`, `Ціна`, `Дата оформлення замовлення`) VALUES (?, ?, ?, ?,?,?)");
+        query.addBindValue(employee_id);
+        query.addBindValue(brand);
+        query.addBindValue(ui->lineEdit_5->text());
+        query.addBindValue(ui->lineEdit_3->text());
+        query.addBindValue(ui->lineEdit_13->text().toInt());
+        query.addBindValue(date.toString(Qt::ISODate));
+
+        if(!query.exec()) {
+            qDebug() << "Insert query failed: " << query.lastError();
+        }
+    }
+
+void MainWindow::on_pushButton_5_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(0);
+    ui->stackedWidget->show();
+}
+

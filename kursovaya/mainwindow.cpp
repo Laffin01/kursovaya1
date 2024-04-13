@@ -28,6 +28,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
+
     connect(ui->checkBox_42, SIGNAL(stateChanged(int)), this, SLOT(on_checkBox_stateChanged(int)));
     connect(ui->checkBox_35, SIGNAL(stateChanged(int)), this, SLOT(on_checkBox_stateChanged(int)));
     connect(ui->checkBox_47, SIGNAL(stateChanged(int)), this, SLOT(on_checkBox_stateChanged(int)));
@@ -48,13 +49,20 @@ MainWindow::MainWindow(QWidget *parent)
     ui->vid->setPlaceholderText(QString("Від"));
     ui->do_1->setPlaceholderText(QString("До"));
     ui->lineEdit->setPlaceholderText(QString("Пошук"));
-    QPixmap pixmap("D:/c++/kursovaya/arrow.svg");
 
+    ui->groupBox_5->raise();
+
+    QPixmap pixmap("D:/c++/kursovaya/arrow.svg");
     QIcon icon(pixmap);
     ui->pushButton_5->setGeometry(0,0,50,50);
     ui->pushButton_5->setIconSize(QSize(50,50));
     ui->pushButton_5->setStyleSheet("background-color: transparent; border: none;");
     ui->pushButton_5->setIcon(icon);
+
+
+
+
+
 
 }
 
@@ -196,7 +204,7 @@ void MainWindow::on_comboBox_2_currentIndexChanged()
 }
 
 
-void MainWindow::on_tableView_2_clicked(const QModelIndex &index)
+ void MainWindow::on_tableView_2_clicked(const QModelIndex &index)
 {
     QSqlQuery query;
 
@@ -231,35 +239,7 @@ void MainWindow::on_pushButton_3_clicked()
 
     ui->stackedWidget->setCurrentIndex(1);
     ui->stackedWidget->show();
-    QDateTime currentDateTime = QDateTime::currentDateTime();
-    QString confirmationText = "<h2>Подтверждение заказа:</h2><br>";
-    confirmationText += "<b>Комплектація:</b> " + ui->lineEdit_3->text() + "<br>";
-    confirmationText += "<b>Модель:</b> " + ui->lineEdit_5->text() + "<br>";
-    confirmationText += "<b>Цвет:</b> " + ui->lineEdit_4->text() + "<br>";
-    confirmationText += "<b>Количество дверей:</b> " + ui->lineEdit_6->text() + "<br>";
-    confirmationText += "<b>Количество мест:</b> " + ui->lineEdit_7->text() + "<br>";
-    confirmationText += "<b>Тип топлива:</b> " + ui->lineEdit_8->text() + "<br>";
-    confirmationText += "<b>Тип трансмиссии:</b> " + ui->lineEdit_9->text() + "<br>";
-    confirmationText += "<b>Объем двигателя:</b> " + ui->lineEdit_10->text() + "<br>";
-    confirmationText += "<b>Расход топлива:</b> " + ui->lineEdit_11->text() + "<br>";
-    confirmationText += "<b>Мощность:</b> " + ui->lineEdit_12->text() + "<br>";
-    confirmationText += "<b>Цена:</b> " + ui->lineEdit_13->text() + "<br>";
-    confirmationText += "<br><b>Дата и время оформления заказа:</b> " + currentDateTime.toString("dd.MM.yyyy HH:mm:ss") + "<br>";
-    confirmationText += "<h3>Дякуємо за замовлення!</h3>";
-    QPdfWriter pdfWriter("OrderConfirmation.pdf");
-    QPainter painter(&pdfWriter);
-    QFont font;
-    font.setFamily("Arial");
-    font.setPointSize(150);
-    painter.setFont(font);
-    QTextDocument textDoc;
-    textDoc.setDefaultFont(font);
-    textDoc.setHtml(confirmationText);
-    textDoc.setTextWidth(pdfWriter.width());
-    textDoc.drawContents(&painter);
-    painter.end();
-    QDesktopServices::openUrl(QUrl::fromLocalFile(QDir::currentPath() + "/OrderConfirmation.pdf"));
-    //Insert_info_to_the_table();
+
 }
 
 void MainWindow::on_pushButton_2_clicked()
@@ -295,6 +275,7 @@ void MainWindow::on_pushButton_2_clicked()
         QString num = Mainmenu::check_number;
         QDate date = QDate::currentDate();
         int employee_id=0;
+
         query.prepare("SELECT employee_id FROM employee WHERE  number_of_the_phone  =:number");
         query.bindValue(":number", num);
         if(query.exec() && query.next()) {
@@ -302,19 +283,25 @@ void MainWindow::on_pushButton_2_clicked()
         } else {
             qDebug() << "Query failed: " << query.lastError();
         }
-        qDebug() << brand;
-        query.prepare("INSERT INTO zamovlennya (employee_id, `Марка`, `Модель`, `Комплектація`, `Ціна`, `Дата оформлення замовлення`) VALUES (?, ?, ?, ?,?,?)");
+
+        query.prepare("INSERT INTO zamovlennya (employee_id, `Марка`, `Модель`, `Комплектація`, `Ціна`, `Дата оформлення замовлення`, `ФІБ`, `Місто проживання`, `РНОКПП`, `Номер паспорта`, `Номер телефона`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
         query.addBindValue(employee_id);
         query.addBindValue(brand);
         query.addBindValue(ui->lineEdit_5->text());
         query.addBindValue(ui->lineEdit_3->text());
         query.addBindValue(ui->lineEdit_13->text().toInt());
         query.addBindValue(date.toString(Qt::ISODate));
+        query.addBindValue(ui->lineEdit_14->text());
+        query.addBindValue(ui->lineEdit_15->text());
+        query.addBindValue(ui->lineEdit_16->text());
+        query.addBindValue(ui->lineEdit_17->text());
+        query.addBindValue(ui->lineEdit_18->text());
 
         if(!query.exec()) {
             qDebug() << "Insert query failed: " << query.lastError();
         }
     }
+
 
 void MainWindow::on_pushButton_5_clicked()
 {
@@ -322,3 +309,130 @@ void MainWindow::on_pushButton_5_clicked()
     ui->stackedWidget->show();
 }
 
+
+void MainWindow::on_pushButton_7_clicked()
+{
+    Insert_info_to_the_table();
+    QDateTime currentDateTime = QDateTime::currentDateTime();
+    QString confirmationText = "<h2>Подтверждение заказа:</h2><br>";
+    confirmationText += "<b>Комплектація:</b> " + ui->lineEdit_3->text() + "<br>";
+    confirmationText += "<b>Модель:</b> " + ui->lineEdit_5->text() + "<br>";
+    confirmationText += "<b>Цвет:</b> " + ui->lineEdit_4->text() + "<br>";
+    confirmationText += "<b>Количество дверей:</b> " + ui->lineEdit_6->text() + "<br>";
+    confirmationText += "<b>Количество мест:</b> " + ui->lineEdit_7->text() + "<br>";
+    confirmationText += "<b>Тип топлива:</b> " + ui->lineEdit_8->text() + "<br>";
+    confirmationText += "<b>Тип трансмиссии:</b> " + ui->lineEdit_9->text() + "<br>";
+    confirmationText += "<b>Объем двигателя:</b> " + ui->lineEdit_10->text() + "<br>";
+    confirmationText += "<b>Расход топлива:</b> " + ui->lineEdit_11->text() + "<br>";
+    confirmationText += "<b>Мощность:</b> " + ui->lineEdit_12->text() + "<br>";
+    confirmationText += "<b>Цена:</b> " + ui->lineEdit_13->text() + "<br>";
+    confirmationText += "<br><b>Дата и время оформления заказа:</b> " + currentDateTime.toString("dd.MM.yyyy HH:mm:ss") + "<br>";
+    confirmationText += "<h3>Дякуємо за замовлення!</h3>";
+    QPdfWriter pdfWriter("OrderConfirmation.pdf");
+    QPainter painter(&pdfWriter);
+    QFont font;
+    font.setFamily("Arial");
+    font.setPointSize(150);
+    painter.setFont(font);
+    QTextDocument textDoc;
+    textDoc.setDefaultFont(font);
+    textDoc.setHtml(confirmationText);
+    textDoc.setTextWidth(pdfWriter.width());
+    textDoc.drawContents(&painter);
+    painter.end();
+    QDesktopServices::openUrl(QUrl::fromLocalFile(QDir::currentPath() + "/OrderConfirmation.pdf"));
+}
+
+
+
+
+void MainWindow::on_tabWidget_currentChanged(int index)
+{
+    QSqlQuery query;
+
+    ui->comboBox_3->clear();
+    QStringList brand;
+    query.prepare("SELECT DISTINCT Марка FROM zamovlennya");
+    if(query.exec()) {
+        while(query.next())
+        {
+            QString currentBrand = query.value("Марка").toString();
+            brand.append(currentBrand);
+            ui->comboBox_3->addItem(currentBrand);
+        }
+    }
+    create_graphic(brand);
+}
+
+
+void MainWindow::on_comboBox_3_currentIndexChanged(int index1)
+{
+    QSqlQuery modelQuery;
+        ui->comboBox_4->clear();
+        ui->comboBox_5->clear();
+    QString brand1 = ui->comboBox_3->currentText();
+    modelQuery.prepare("SELECT DISTINCT Модель, Комплектація FROM zamovlennya WHERE Марка =:brand");
+    modelQuery.bindValue(":brand", brand1);
+    if(modelQuery.exec())
+    {
+        while (modelQuery.next())
+        {
+
+            QString brand_model = modelQuery.value("Модель").toString();
+            QString model_conf = modelQuery.value("Комплектація").toString();
+                ui->comboBox_4->addItem(brand_model);
+                ui->comboBox_5->addItem(model_conf);
+        }
+    }
+}
+
+void MainWindow::create_graphic(QStringList x)
+{
+    QSqlQuery query;
+    QStringList categories;
+    int max_y = 0;
+
+    QChart *chart = new QChart();
+    QBarSeries *series = new QBarSeries(); // Создайте одну серию здесь
+
+    for(int i=0; i < x.count(); i++)
+    {
+        int y=0;
+        query.prepare("SELECT COUNT(*) FROM zamovlennya WHERE Марка = :brand");
+        query.bindValue(":brand", x[i]);
+        if(query.exec()) {
+            if(query.next()) {
+                y = query.value(0).toInt();
+                if(y > max_y) {
+                    max_y = y;
+                }
+            }
+        }
+
+        QBarSet *set = new QBarSet(x[i]);
+        *set << y;
+
+        series->append(set); // Добавьте набор данных в серию здесь
+
+
+    }
+
+    chart->addSeries(series); // Добавьте серию в график здесь
+
+    QBarCategoryAxis *axisX = new QBarCategoryAxis();
+    axisX->append("Кількість проданих автомобілей (по маркам)");
+    chart->setAxisX(axisX);
+
+    QValueAxis *axisY = new QValueAxis();
+    axisY->setRange(0, max_y);
+    axisY->setTickType(QValueAxis::TicksFixed);
+    axisY->setTickCount(max_y + 1);
+    chart->setAxisY(axisY);
+
+    QChartView *chartView = new QChartView(chart);
+    chartView->setRenderHint(QPainter::Antialiasing);
+
+    QVBoxLayout *layout = new QVBoxLayout();
+    layout->addWidget(chartView);
+    ui->widget->setLayout(layout);
+}

@@ -6,7 +6,12 @@
 #include <QTableWidget>
 #include <QAbstractItemModel>
 #include <QApplication>
-
+#include <QtCharts/QChartView>
+#include <QtCharts/QLineSeries>
+#include <QtCharts/QBarSeries>
+#include <QtCharts/QBarSet>
+#include <QtCharts/QBarCategoryAxis>
+#include <QtCharts/QValueAxis>
 #include <qspoiler.h>
 #include "profile_win.h"
 #include "DbConnection.h"
@@ -37,12 +42,20 @@ private slots:
    void on_pushButton_2_clicked();
     void on_pushButton_4_clicked();
       void Insert_info_to_the_table();
-
     void on_pushButton_5_clicked();
+      void on_pushButton_7_clicked();
 
-private:
+
+      void on_tabWidget_currentChanged(int index);
+
+      void on_comboBox_3_currentIndexChanged(int index1);
+      void create_graphic(QStringList x);
+
+
+  private:
 
    Ui::MainWindow *ui;
+
     QString brand;
     QModelIndexList selectedIndexes;
    int selectedIndex;
@@ -55,6 +68,8 @@ private:
    int carId;
     QSqlTableModel *model;
    QString currentConfiguration;
+
+
 };
 
 

@@ -17,19 +17,20 @@ VALUES
 
 
 
-/*
+
 CREATE TABLE `car_showroom`.`zamovlennya` (
     `zamovlennya_id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY, 
-`client_id` INT NOT NULL,  
+`employee_id` INT NOT NULL ,  
   `Марка` VARCHAR(45) NOT NULL,
   `Модель` VARCHAR(45) NOT NULL,
   `Комплектація` VARCHAR(100) NOT NULL,
   `Ціна` INT NOT NULL,
-  `Дата оформлення замовлення` DATE NOT NULL)
-*/
-/*ALTER TABLE _client RENAME TO employee;*/
-ALTER TABLE employee CHANGE client_id employee_id int;
-
+   `Дата оформлення замовлення` DATE NOT NULL,
+  `ФІБ` VARCHAR(100) NOT NULL,
+    `Місто проживання` VARCHAR(30)  NOT NULL,
+  `РНОКПП` VARCHAR(20)  NOT NULL,
+  `Номер паспорта` VARCHAR(30)  NOT NULL,
+  `Номер телефона` VARCHAR(30) NOT NULL)
 
 
 

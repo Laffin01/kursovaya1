@@ -5,35 +5,37 @@
 #include <QPushButton>
 #include <QEvent>
 #include <QPropertyAnimation>
-    class QSpoiler : public QGroupBox
+class QSpoiler : public QGroupBox
+{
+public:
+    QSpoiler(QWidget * parent = 0);
+    QSpoiler(const QString & title, QWidget * parent = 0);
+
+protected:
+    bool event(QEvent *event) override
     {
-    public:
-        QSpoiler(QWidget * parent = 0);
-        QSpoiler(const QString & title, QWidget * parent = 0);
-
-    protected:
-        bool event(QEvent *event) override
+        if (event->type() == QEvent::HoverEnter)
         {
-            if (event->type() == QEvent::HoverEnter)
-            {
-                animation->setDuration(500);
-                animation->setStartValue(size());
-                animation->setEndValue(QSize(width(), sizeHint().height()));
-                animation->start();
-            }
-            else if (event->type() == QEvent::HoverLeave)
-            {
-                animation->setDuration(500);
-                animation->setStartValue(size());
-                animation->setEndValue(QSize(width(), 30));
-                animation->start();
-            }
+            animation->setDuration(500);
+            animation->setStartValue(size());
+            animation->setEndValue(QSize(width(), sizeHint().height())); // Увеличиваем высоту
 
-            return QGroupBox::event(event);
+            animation->start();
+        }
+        else if (event->type() == QEvent::HoverLeave)
+        {
+            animation->setDuration(500);
+            animation->setStartValue(size());
+            animation->setEndValue(QSize(width(), 30)); // Уменьшаем высоту
+            animation->start();
         }
 
-    private:
-        QPropertyAnimation *animation;
- };
+        return QGroupBox::event(event);
+    }
+
+private:
+    QPropertyAnimation *animation;
+};
+
 
 #endif // QSPOILER_H

@@ -13,6 +13,10 @@
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">
+font: italic 12pt &quot;Times New Roman&quot;;</string>
+  </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="1" column="0">
     <widget class="QStackedWidget" name="stackedWidget">
@@ -21,54 +25,67 @@
      </property>
      <widget class="QWidget" name="page">
       <layout class="QGridLayout" name="gridLayout_2">
-       <item row="0" column="0">
-        <widget class="QLabel" name="label">
-         <property name="text">
-          <string>Номер телефону</string>
-         </property>
-        </widget>
+       <item row="2" column="1" colspan="2">
+        <widget class="QLineEdit" name="namelabel"/>
        </item>
-       <item row="2" column="0">
-        <widget class="QLabel" name="label_2">
-         <property name="text">
-          <string>Пароль</string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="0" colspan="2">
-        <widget class="QPushButton" name="autorization">
-         <property name="text">
-          <string>Зайти до свого кабінету</string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="2">
+       <item row="4" column="2">
         <widget class="QPushButton" name="pushButton">
          <property name="text">
           <string>Реєстрація</string>
          </property>
         </widget>
        </item>
-       <item row="2" column="1" colspan="2">
+       <item row="2" column="0">
+        <widget class="QLabel" name="label">
+         <property name="text">
+          <string>Номер телефону</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="1" colspan="2">
         <widget class="QLineEdit" name="password"/>
        </item>
-       <item row="0" column="1" colspan="2">
-        <widget class="QLineEdit" name="namelabel"/>
+       <item row="3" column="0">
+        <widget class="QLabel" name="label_2">
+         <property name="text">
+          <string>Пароль</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="0" colspan="2">
+        <widget class="QPushButton" name="autorization">
+         <property name="text">
+          <string>Зайти до свого кабінету</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QLabel" name="label_9">
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>30</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>Авторизація</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
        </item>
       </layout>
      </widget>
      <widget class="QWidget" name="page_2">
       <layout class="QGridLayout" name="gridLayout_3">
-       <item row="5" column="4">
-        <widget class="QLineEdit" name="lineEdit_7"/>
+       <item row="4" column="4">
+        <widget class="QLineEdit" name="lineEdit_6"/>
        </item>
-       <item row="2" column="3" colspan="2">
-        <widget class="QLineEdit" name="lineEdit_4"/>
-       </item>
-       <item row="5" column="0" colspan="4">
-        <widget class="QLabel" name="label_8">
+       <item row="3" column="0" colspan="2">
+        <widget class="QLabel" name="label_5">
          <property name="text">
-          <string>Підтвердіть пароль</string>
+          <string>Дата Народження</string>
          </property>
         </widget>
        </item>
@@ -79,28 +96,12 @@
          </property>
         </widget>
        </item>
-       <item row="1" column="2" colspan="3">
-        <widget class="QLineEdit" name="lineEdit_3"/>
-       </item>
-       <item row="3" column="0" colspan="2">
-        <widget class="QLabel" name="label_5">
+       <item row="6" column="0">
+        <widget class="QPushButton" name="pushButton_4">
          <property name="text">
-          <string>Дата Народження</string>
+          <string>Зареєструватись</string>
          </property>
         </widget>
-       </item>
-       <item row="4" column="4">
-        <widget class="QLineEdit" name="lineEdit_6"/>
-       </item>
-       <item row="0" column="0">
-        <widget class="QLabel" name="label_3">
-         <property name="text">
-          <string> ФІБ</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="1" colspan="4">
-        <widget class="QLineEdit" name="lineEdit_2"/>
        </item>
        <item row="1" column="0" colspan="2">
         <widget class="QLabel" name="label_6">
@@ -109,29 +110,48 @@
          </property>
         </widget>
        </item>
-       <item row="2" column="0" colspan="3">
-        <widget class="QLabel" name="label_4">
-         <property name="text">
-          <string>Місто проживання</string>
-         </property>
-        </widget>
+       <item row="3" column="4">
+        <widget class="QDateEdit" name="dateEdit"/>
        </item>
-       <item row="6" column="0">
-        <widget class="QPushButton" name="pushButton_4">
-         <property name="text">
-          <string>Зареєструватись</string>
-         </property>
-        </widget>
+       <item row="5" column="4">
+        <widget class="QLineEdit" name="lineEdit_7"/>
        </item>
-       <item row="6" column="4">
+       <item row="6" column="3" colspan="2">
         <widget class="QPushButton" name="pushButton_3">
          <property name="text">
           <string>Перейти до вікна авторизації</string>
          </property>
         </widget>
        </item>
-       <item row="3" column="4">
-        <widget class="QDateEdit" name="dateEdit"/>
+       <item row="0" column="0">
+        <widget class="QLabel" name="label_3">
+         <property name="text">
+          <string> ФІБ</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="2" colspan="3">
+        <widget class="QLineEdit" name="lineEdit_3"/>
+       </item>
+       <item row="5" column="0" colspan="4">
+        <widget class="QLabel" name="label_8">
+         <property name="text">
+          <string>Підтвердіть пароль</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="3" colspan="2">
+        <widget class="QLineEdit" name="lineEdit_4"/>
+       </item>
+       <item row="0" column="1" colspan="4">
+        <widget class="QLineEdit" name="lineEdit_2"/>
+       </item>
+       <item row="2" column="0" colspan="3">
+        <widget class="QLabel" name="label_4">
+         <property name="text">
+          <string>Місто проживання</string>
+         </property>
+        </widget>
        </item>
       </layout>
      </widget>

@@ -19,19 +19,23 @@ QT_BEGIN_NAMESPACE
 
 namespace Ui {
 class MainWindow;
+class Graphic;
 }
 QT_END_NAMESPACE
 
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
-
 public:
 
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
 private slots:
+
+    void on_radioButton_2_clicked();
+    void on_radioButton_clicked();
+    void on_radioButton_3_clicked();
     void on_tableView_clicked( const QModelIndex &index);
     void on_comboBox_currentIndexChanged();
     void on_checkBox_stateChanged();
@@ -43,18 +47,23 @@ private slots:
     void on_pushButton_4_clicked();
       void Insert_info_to_the_table();
     void on_pushButton_5_clicked();
-      void on_pushButton_7_clicked();
+       void on_pushButton_7_clicked();
+    void create_graphic(QStringList x,  QStringList y1);
 
 
-      void on_tabWidget_currentChanged(int index);
 
-      void on_comboBox_3_currentIndexChanged(int index1);
-      void create_graphic(QStringList x);
 
 
   private:
 
    Ui::MainWindow *ui;
+      QChart *chart;
+      QBarSeries *series;
+      QBarCategoryAxis *axisX;
+      QValueAxis *axisY;
+      QChartView *chartView;
+      QVBoxLayout *layout;
+      QBarSet *set;
 
     QString brand;
     QModelIndexList selectedIndexes;
@@ -71,6 +80,8 @@ private slots:
 
 
 };
+
+
 
 
 #endif

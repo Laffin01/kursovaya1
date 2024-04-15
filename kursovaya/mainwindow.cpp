@@ -28,7 +28,13 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-
+    chart = nullptr;
+    series = nullptr;
+    axisX = nullptr;
+    axisY = nullptr;
+    chartView = nullptr;
+    layout = nullptr;
+     set= nullptr;
     connect(ui->checkBox_42, SIGNAL(stateChanged(int)), this, SLOT(on_checkBox_stateChanged(int)));
     connect(ui->checkBox_35, SIGNAL(stateChanged(int)), this, SLOT(on_checkBox_stateChanged(int)));
     connect(ui->checkBox_47, SIGNAL(stateChanged(int)), this, SLOT(on_checkBox_stateChanged(int)));
@@ -66,12 +72,7 @@ MainWindow::MainWindow(QWidget *parent)
 
 }
 
-MainWindow::~MainWindow()
-{
 
-    delete ui;
-
-}
 // установка перечня комплектаций в комбобокс
 void MainWindow::on_tableView_clicked(const QModelIndex &index)
 {
@@ -346,26 +347,172 @@ void MainWindow::on_pushButton_7_clicked()
 
 
 
-void MainWindow::on_tabWidget_currentChanged(int index)
+void MainWindow::create_graphic(QStringList x,  QStringList y1)
 {
-    QSqlQuery query;
+    QStringList categories;
+    int max_y = 0;
+          chart = new QChart();
+           series = new QBarSeries(); // Создайте одну серию здесь
 
-    ui->comboBox_3->clear();
+    for(int i=0; i < x.count(); i++)
+    {
+        int y;
+        y=y1[i].toInt();
+
+        if(y > max_y) {
+            max_y = y;
+        }
+
+
+        set = new QBarSet(x[i]);
+        *set << y;
+        series->append(set);
+
+    }
+
+    chart->addSeries(series); // Добавьте серию в график здесь
+
+    axisX = new QBarCategoryAxis();
+    axisX->append("Кількість проданих автомобілей (по маркам)");
+    chart->setAxisX(axisX);
+
+    axisY = new QValueAxis();
+    axisY->setRange(0, max_y);
+    axisY->setTickType(QValueAxis::TicksFixed);
+    axisY->setTickCount(max_y + 1);
+    chart->setAxisY(axisY);
+
+    chartView = new QChartView(chart);
+    chartView->setRenderHint(QPainter::Antialiasing);
+
+    QVBoxLayout *layout = new QVBoxLayout();
+    layout->addWidget(chartView);
+    if(ui->widget->layout() != nullptr && ui->widget->layout()->count() != 0) {
+        delete ui->widget->layout();
+    }
+
+     ui->widget->setLayout(layout);
+
+}
+
+
+void MainWindow::on_radioButton_2_clicked()
+{
+
+    QSqlQuery query;
+    qDebug() << "dsgsgssdgsg";
     QStringList brand;
+
+    // Select distinct brands from the table
     query.prepare("SELECT DISTINCT Марка FROM zamovlennya");
     if(query.exec()) {
         while(query.next())
         {
             QString currentBrand = query.value("Марка").toString();
+            qDebug() << currentBrand;
             brand.append(currentBrand);
-            ui->comboBox_3->addItem(currentBrand);
         }
     }
-    create_graphic(brand);
+
+
+    QStringList y1;
+    for(int i=0; i < brand.count(); i++)
+    {
+        // Count the number of records for each brand
+        query.prepare("SELECT COUNT(*) FROM zamovlennya WHERE Марка = :brand");
+        query.bindValue(":brand", brand[i]);
+        if(query.exec() && query.next()) {
+
+            QString y = query.value(0).toString();
+            qDebug() << y;
+            y1.append(y);
+        }
+        else {
+            qDebug() << "Query failed for brand:" << brand[i];
+        }
+    }
+
+    // Create graphic using the retrieved data
+  create_graphic(brand, y1);
+
 }
 
 
-void MainWindow::on_comboBox_3_currentIndexChanged(int index1)
+void MainWindow::on_radioButton_clicked()
+{
+    QSqlQuery query;
+
+    QStringList brand;
+    query.prepare("SELECT DISTINCT Модель FROM zamovlennya");
+    if(query.exec()) {
+        while(query.next())
+        {
+            QString currentBrand = query.value("Модель").toString();
+            brand.append(currentBrand);
+
+        }
+    }
+    QStringList y1;
+    for(int i=0; i < brand.count(); i++)
+    {
+
+        query.prepare("SELECT COUNT(*) FROM zamovlennya WHERE Модель = :brand");
+        query.bindValue(":brand", brand[i]);
+        if(query.exec()) {
+            if(query.next()) {
+                QString y = query.value(0).toString();
+                y1.append(y);
+            }
+        }
+
+    }
+    create_graphic(brand, y1);
+
+}
+
+
+
+void MainWindow::on_radioButton_3_clicked()
+{
+    QSqlQuery query;
+    QStringList brand;
+    query.prepare("SELECT DISTINCT Комплектація FROM zamovlennya");
+    if(query.exec()) {
+        while(query.next())
+        {
+            QString currentBrand = query.value("Комплектація").toString();
+            brand.append(currentBrand);
+
+        }
+    }
+    QStringList y1;
+    for(int i=0; i < brand.count(); i++)
+    {
+
+        query.prepare("SELECT COUNT(*) FROM zamovlennya WHERE Комплектація = :brand");
+        query.bindValue(":brand", brand[i]);
+        if(query.exec()) {
+            if(query.next()) {
+                QString y = query.value(0).toString();
+                y1.append(y);
+            }
+        }
+
+    }
+
+   create_graphic(brand, y1);
+
+}
+
+MainWindow::~MainWindow()
+{
+
+    delete ui;
+
+}
+
+
+/*void MainWindow::on_comboBox_3_currentIndexChanged(int index1)
 {
     QSqlQuery modelQuery;
         ui->comboBox_4->clear();
@@ -384,55 +531,5 @@ void MainWindow::on_comboBox_3_currentIndexChanged(int index1)
                 ui->comboBox_5->addItem(model_conf);
         }
     }
-}
+}*/
 
-void MainWindow::create_graphic(QStringList x)
-{
-    QSqlQuery query;
-    QStringList categories;
-    int max_y = 0;
-
-    QChart *chart = new QChart();
-    QBarSeries *series = new QBarSeries(); // Создайте одну серию здесь
-
-    for(int i=0; i < x.count(); i++)
-    {
-        int y=0;
-        query.prepare("SELECT COUNT(*) FROM zamovlennya WHERE Марка = :brand");
-        query.bindValue(":brand", x[i]);
-        if(query.exec()) {
-            if(query.next()) {
-                y = query.value(0).toInt();
-                if(y > max_y) {
-                    max_y = y;
-                }
-            }
-        }
-
-        QBarSet *set = new QBarSet(x[i]);
-        *set << y;
-
-        series->append(set); // Добавьте набор данных в серию здесь
-
-
-    }
-
-    chart->addSeries(series); // Добавьте серию в график здесь
-
-    QBarCategoryAxis *axisX = new QBarCategoryAxis();
-    axisX->append("Кількість проданих автомобілей (по маркам)");
-    chart->setAxisX(axisX);
-
-    QValueAxis *axisY = new QValueAxis();
-    axisY->setRange(0, max_y);
-    axisY->setTickType(QValueAxis::TicksFixed);
-    axisY->setTickCount(max_y + 1);
-    chart->setAxisY(axisY);
-
-    QChartView *chartView = new QChartView(chart);
-    chartView->setRenderHint(QPainter::Antialiasing);
-
-    QVBoxLayout *layout = new QVBoxLayout();
-    layout->addWidget(chartView);
-    ui->widget->setLayout(layout);
-}

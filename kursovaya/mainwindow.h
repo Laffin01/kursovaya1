@@ -12,7 +12,8 @@
 #include <QtCharts/QBarSet>
 #include <QtCharts/QBarCategoryAxis>
 #include <QtCharts/QValueAxis>
-#include <qspoiler.h>
+#include <QVBoxLayout>
+#include <QLineEdit>
 #include "profile_win.h"
 #include "DbConnection.h"
 QT_BEGIN_NAMESPACE
@@ -38,7 +39,7 @@ private slots:
     void on_radioButton_3_clicked();
     void on_tableView_clicked( const QModelIndex &index);
     void on_comboBox_currentIndexChanged();
-    void on_checkBox_stateChanged();
+
     void on_pushButton_clicked();
     void on_comboBox_2_currentIndexChanged();
     void on_tableView_2_clicked(const QModelIndex &index);
@@ -53,10 +54,11 @@ private slots:
 
 
 
-
-  private:
+private:
 
    Ui::MainWindow *ui;
+    QLineEdit *vid = new QLineEdit();
+    QLineEdit *do_1= new QLineEdit();
       QChart *chart;
       QBarSeries *series;
       QBarCategoryAxis *axisX;

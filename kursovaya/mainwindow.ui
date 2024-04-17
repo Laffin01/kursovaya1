@@ -40,7 +40,7 @@
     </size>
    </property>
    <layout class="QGridLayout" name="gridLayout_10">
-    <item row="0" column="0">
+    <item row="0" column="1">
      <widget class="QTabWidget" name="tabWidget">
       <property name="enabled">
        <bool>true</bool>
@@ -58,13 +58,49 @@
        <string notr="true">font: italic 14pt &quot;Times New Roman&quot;;</string>
       </property>
       <property name="currentIndex">
-       <number>2</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="tab">
        <attribute name="title">
         <string>Головна сторінка</string>
        </attribute>
        <layout class="QGridLayout" name="gridLayout_6">
+        <item row="0" column="0">
+         <widget class="QScrollArea" name="scrollArea">
+          <property name="widgetResizable">
+           <bool>true</bool>
+          </property>
+          <widget class="QWidget" name="scrollAreaWidgetContents">
+           <property name="geometry">
+            <rect>
+             <x>0</x>
+             <y>0</y>
+             <width>324</width>
+             <height>603</height>
+            </rect>
+           </property>
+           <widget class="QLabel" name="label_25">
+            <property name="geometry">
+             <rect>
+              <x>10</x>
+              <y>10</y>
+              <width>251</width>
+              <height>21</height>
+             </rect>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>40</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>Фільтри</string>
+            </property>
+           </widget>
+          </widget>
+         </widget>
+        </item>
         <item row="0" column="2">
          <widget class="QGroupBox" name="groupBox_3">
           <property name="styleSheet">
@@ -74,6 +110,13 @@
            <string>Додаткова інформація</string>
           </property>
           <layout class="QGridLayout" name="gridLayout_8">
+           <item row="6" column="0">
+            <widget class="QPushButton" name="pushButton">
+             <property name="text">
+              <string>Додати до замовлення</string>
+             </property>
+            </widget>
+           </item>
            <item row="0" column="0">
             <widget class="QLabel" name="label_4">
              <property name="styleSheet">
@@ -100,341 +143,13 @@
            <item row="3" column="0">
             <widget class="QComboBox" name="comboBox"/>
            </item>
+           <item row="5" column="0">
+            <widget class="QLineEdit" name="lineEdit_2"/>
+           </item>
            <item row="4" column="0">
             <widget class="QLabel" name="label_2">
              <property name="text">
               <string>Ціна</string>
-             </property>
-            </widget>
-           </item>
-           <item row="5" column="0">
-            <widget class="QLineEdit" name="lineEdit_2"/>
-           </item>
-           <item row="6" column="0">
-            <widget class="QPushButton" name="pushButton">
-             <property name="text">
-              <string>Додати до замовлення</string>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </widget>
-        </item>
-        <item row="0" column="0">
-         <widget class="QGroupBox" name="groupBox_2">
-          <property name="font">
-           <font>
-            <family>Times New Roman</family>
-            <pointsize>14</pointsize>
-            <italic>true</italic>
-            <bold>false</bold>
-           </font>
-          </property>
-          <property name="layoutDirection">
-           <enum>Qt::LeftToRight</enum>
-          </property>
-          <property name="styleSheet">
-           <string notr="true"/>
-          </property>
-          <property name="title">
-           <string>Фільтр</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-          </property>
-          <layout class="QGridLayout" name="gridLayout_9">
-           <item row="0" column="0">
-            <widget class="QLineEdit" name="vid">
-             <property name="maximumSize">
-              <size>
-               <width>144</width>
-               <height>25</height>
-              </size>
-             </property>
-             <property name="font">
-              <font>
-               <family>Times New Roman</family>
-               <pointsize>14</pointsize>
-               <italic>true</italic>
-               <bold>false</bold>
-              </font>
-             </property>
-             <property name="focusPolicy">
-              <enum>Qt::ClickFocus</enum>
-             </property>
-             <property name="text">
-              <string/>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="1">
-            <widget class="QLineEdit" name="do_1">
-             <property name="maximumSize">
-              <size>
-               <width>144</width>
-               <height>25</height>
-              </size>
-             </property>
-             <property name="font">
-              <font>
-               <family>Times New Roman</family>
-               <pointsize>14</pointsize>
-               <italic>true</italic>
-               <bold>false</bold>
-              </font>
-             </property>
-             <property name="focusPolicy">
-              <enum>Qt::ClickFocus</enum>
-             </property>
-             <property name="text">
-              <string/>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="2">
-            <widget class="QLabel" name="label_10">
-             <property name="text">
-              <string>грн.</string>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="0">
-            <widget class="QLabel" name="label_12">
-             <property name="font">
-              <font>
-               <family>Times New Roman</family>
-               <pointsize>14</pointsize>
-               <italic>true</italic>
-               <bold>false</bold>
-              </font>
-             </property>
-             <property name="text">
-              <string>Марка:</string>
-             </property>
-            </widget>
-           </item>
-           <item row="2" column="0">
-            <widget class="QCheckBox" name="checkBox_42">
-             <property name="font">
-              <font>
-               <family>Times New Roman</family>
-               <pointsize>14</pointsize>
-               <italic>true</italic>
-               <bold>false</bold>
-              </font>
-             </property>
-             <property name="text">
-              <string>BMW</string>
-             </property>
-            </widget>
-           </item>
-           <item row="3" column="0">
-            <widget class="QCheckBox" name="checkBox_35">
-             <property name="font">
-              <font>
-               <family>Times New Roman</family>
-               <pointsize>14</pointsize>
-               <italic>true</italic>
-               <bold>false</bold>
-              </font>
-             </property>
-             <property name="text">
-              <string>Mercedes-Benz</string>
-             </property>
-            </widget>
-           </item>
-           <item row="4" column="0">
-            <widget class="QCheckBox" name="checkBox_47">
-             <property name="font">
-              <font>
-               <family>Times New Roman</family>
-               <pointsize>14</pointsize>
-               <italic>true</italic>
-               <bold>false</bold>
-              </font>
-             </property>
-             <property name="text">
-              <string>Volvo</string>
-             </property>
-            </widget>
-           </item>
-           <item row="5" column="0">
-            <widget class="QCheckBox" name="checkBox_46">
-             <property name="font">
-              <font>
-               <family>Times New Roman</family>
-               <pointsize>14</pointsize>
-               <italic>true</italic>
-               <bold>false</bold>
-              </font>
-             </property>
-             <property name="text">
-              <string>Audi</string>
-             </property>
-            </widget>
-           </item>
-           <item row="6" column="0">
-            <widget class="QCheckBox" name="checkBox_39">
-             <property name="font">
-              <font>
-               <family>Times New Roman</family>
-               <pointsize>14</pointsize>
-               <italic>true</italic>
-               <bold>false</bold>
-              </font>
-             </property>
-             <property name="text">
-              <string>Peugeot</string>
-             </property>
-            </widget>
-           </item>
-           <item row="7" column="0">
-            <widget class="QCheckBox" name="checkBox_34">
-             <property name="font">
-              <font>
-               <family>Times New Roman</family>
-               <pointsize>14</pointsize>
-               <italic>true</italic>
-               <bold>false</bold>
-              </font>
-             </property>
-             <property name="text">
-              <string>Toyota</string>
-             </property>
-            </widget>
-           </item>
-           <item row="8" column="0">
-            <widget class="QCheckBox" name="checkBox_43">
-             <property name="font">
-              <font>
-               <family>Times New Roman</family>
-               <pointsize>14</pointsize>
-               <italic>true</italic>
-               <bold>false</bold>
-              </font>
-             </property>
-             <property name="text">
-              <string>Land-Rover</string>
-             </property>
-            </widget>
-           </item>
-           <item row="9" column="0">
-            <widget class="QCheckBox" name="checkBox_37">
-             <property name="font">
-              <font>
-               <family>Times New Roman</family>
-               <pointsize>14</pointsize>
-               <italic>true</italic>
-               <bold>false</bold>
-              </font>
-             </property>
-             <property name="text">
-              <string>Subaru</string>
-             </property>
-            </widget>
-           </item>
-           <item row="10" column="0">
-            <widget class="QCheckBox" name="checkBox_40">
-             <property name="font">
-              <font>
-               <family>Times New Roman</family>
-               <pointsize>14</pointsize>
-               <italic>true</italic>
-               <bold>false</bold>
-              </font>
-             </property>
-             <property name="text">
-              <string>Porsche</string>
-             </property>
-            </widget>
-           </item>
-           <item row="11" column="0">
-            <widget class="QLabel" name="label_11">
-             <property name="font">
-              <font>
-               <family>Times New Roman</family>
-               <pointsize>14</pointsize>
-               <italic>true</italic>
-               <bold>false</bold>
-              </font>
-             </property>
-             <property name="text">
-              <string>Країна виробник:</string>
-             </property>
-            </widget>
-           </item>
-           <item row="12" column="0">
-            <widget class="QCheckBox" name="checkBox_36">
-             <property name="font">
-              <font>
-               <family>Times New Roman</family>
-               <pointsize>14</pointsize>
-               <italic>true</italic>
-               <bold>false</bold>
-              </font>
-             </property>
-             <property name="text">
-              <string>Німеччина</string>
-             </property>
-            </widget>
-           </item>
-           <item row="13" column="0">
-            <widget class="QCheckBox" name="checkBox_38">
-             <property name="font">
-              <font>
-               <family>Times New Roman</family>
-               <pointsize>14</pointsize>
-               <italic>true</italic>
-               <bold>false</bold>
-              </font>
-             </property>
-             <property name="text">
-              <string>Японія</string>
-             </property>
-            </widget>
-           </item>
-           <item row="14" column="0">
-            <widget class="QCheckBox" name="checkBox_33">
-             <property name="font">
-              <font>
-               <family>Times New Roman</family>
-               <pointsize>14</pointsize>
-               <italic>true</italic>
-               <bold>false</bold>
-              </font>
-             </property>
-             <property name="text">
-              <string>Франція</string>
-             </property>
-            </widget>
-           </item>
-           <item row="15" column="0">
-            <widget class="QCheckBox" name="checkBox_45">
-             <property name="font">
-              <font>
-               <family>Times New Roman</family>
-               <pointsize>14</pointsize>
-               <italic>true</italic>
-               <bold>false</bold>
-              </font>
-             </property>
-             <property name="text">
-              <string>Велика Британія</string>
-             </property>
-            </widget>
-           </item>
-           <item row="16" column="0">
-            <widget class="QCheckBox" name="checkBox_41">
-             <property name="font">
-              <font>
-               <family>Times New Roman</family>
-               <pointsize>14</pointsize>
-               <italic>true</italic>
-               <bold>false</bold>
-              </font>
-             </property>
-             <property name="text">
-              <string>Швеція</string>
              </property>
             </widget>
            </item>
@@ -451,8 +166,8 @@
           </property>
           <property name="minimumSize">
            <size>
-            <width>426</width>
-            <height>611</height>
+            <width>0</width>
+            <height>0</height>
            </size>
           </property>
           <property name="maximumSize">
@@ -517,7 +232,7 @@
            <enum>Qt::LeftToRight</enum>
           </property>
           <property name="currentIndex">
-           <number>0</number>
+           <number>1</number>
           </property>
           <widget class="QWidget" name="page">
            <layout class="QGridLayout" name="gridLayout">
@@ -935,8 +650,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>975</width>
-             <height>145</height>
+             <width>100</width>
+             <height>30</height>
             </rect>
            </property>
            <attribute name="label">
@@ -948,8 +663,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>975</width>
-             <height>145</height>
+             <width>100</width>
+             <height>30</height>
             </rect>
            </property>
            <attribute name="label">

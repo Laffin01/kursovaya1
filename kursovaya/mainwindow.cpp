@@ -18,7 +18,7 @@
 #include <QPdfWriter>
 #include <QPainter>
 #include <QtSvgWidgets/QSvgWidget>
-
+#include <qspoiler.h>
 #include "mainwindow.h"
 #include "mainmenu.h"
 
@@ -35,9 +35,9 @@ MainWindow::MainWindow(QWidget *parent)
     chartView = nullptr;
     layout = nullptr;
      set= nullptr;
-    connect(ui->checkBox_42, SIGNAL(stateChanged(int)), this, SLOT(on_checkBox_stateChanged(int)));
-    connect(ui->checkBox_35, SIGNAL(stateChanged(int)), this, SLOT(on_checkBox_stateChanged(int)));
-    connect(ui->checkBox_47, SIGNAL(stateChanged(int)), this, SLOT(on_checkBox_stateChanged(int)));
+    // connect(ui->checkBox_42, SIGNAL(stateChanged(int)), this, SLOT(on_checkBox_stateChanged(int)));
+    // connect(ui->checkBox_35, SIGNAL(stateChanged(int)), this, SLOT(on_checkBox_stateChanged(int)));
+    // connect(ui->checkBox_47, SIGNAL(stateChanged(int)), this, SLOT(on_checkBox_stateChanged(int)));
     if (db_1.db1.open()) {
    qDebug() << "Соединение с базой данных установлено.";
 
@@ -52,8 +52,7 @@ MainWindow::MainWindow(QWidget *parent)
  //ui->tableView->setColumnHidden(3, true);
     ui->lineEdit_3->setReadOnly(true);
     ui->lineEdit_2->setReadOnly(true);
-    ui->vid->setPlaceholderText(QString("Від"));
-    ui->do_1->setPlaceholderText(QString("До"));
+
     ui->lineEdit->setPlaceholderText(QString("Пошук"));
 
     ui->groupBox_5->raise();
@@ -66,6 +65,35 @@ MainWindow::MainWindow(QWidget *parent)
     ui->pushButton_5->setIcon(icon);
 
 
+
+    QSpoiler *spoiler1 = new QSpoiler("По маркам", this);
+    QSpoiler *spoiler2 = new QSpoiler("По ціні", this);
+    QSpoiler *spoiler3 = new QSpoiler("По країні виробнику", this);
+    QSpoiler *spoiler4 = new QSpoiler("По типу кузова", this);
+
+    vid->setPlaceholderText(QString("Від"));
+    do_1->setPlaceholderText(QString("До"));
+    QVBoxLayout *layout = new QVBoxLayout;
+        layout->addWidget(vid);
+        layout->addWidget(do_1);
+
+        spoiler1->Setbutton("Volvo");
+        spoiler1->Setbutton("BMW");
+        spoiler1->Setbutton("Mercedes-Benz");
+       spoiler1->Setbutton("Audi");
+       spoiler1->Setbutton("Peugeot");
+        spoiler1->Setbutton("Toyota");
+       spoiler1->Setbutton("Land-Rover");
+        spoiler1->Setbutton("Porsche");
+        spoiler1->Setbutton("Subaru");
+
+
+    layout->addWidget(spoiler1);
+    layout->addWidget(spoiler2);
+    layout->addWidget(spoiler3);
+    layout->addWidget(spoiler4);
+
+    ui->scrollArea->widget()->setLayout(layout);
 
 
 
@@ -111,32 +139,32 @@ void MainWindow::on_comboBox_currentIndexChanged()
     }
 }
 
-void MainWindow::on_checkBox_stateChanged()
-{
-    QStringList brands;
-    if(ui->checkBox_42->isChecked())
-    {
-        brands.append("'" + ui->checkBox_42->text() + "'");
-    }
+// void MainWindow::on_checkBox_stateChanged()
+// {
+//     QStringList brands;
+//     if(ui->checkBox_42->isChecked())
+//     {
+//         brands.append("'" + ui->checkBox_42->text() + "'");
+//     }
 
-    if(ui->checkBox_35->isChecked())
-    {
-        brands.append("'" + ui->checkBox_35->text() + "'");
-    }
+//     if(ui->checkBox_35->isChecked())
+//     {
+//         brands.append("'" + ui->checkBox_35->text() + "'");
+//     }
 
-    QString sql_statement;
-    if (!brands.isEmpty()) {
-        QString brandList = brands.join(",");
-        sql_statement = QString("SELECT * FROM cars WHERE brand IN (%1)").arg(brandList);
-    }
-    else
-    {
-        sql_statement="SELECT * FROM cars";
-    }
-    QSqlQueryModel *model = new QSqlQueryModel;
-    model->setQuery(sql_statement,  db_1.db1);
-    ui->tableView->setModel(model);
-}
+//     QString sql_statement;
+//     if (!brands.isEmpty()) {
+//         QString brandList = brands.join(",");
+//         sql_statement = QString("SELECT * FROM cars WHERE brand IN (%1)").arg(brandList);
+//     }
+//     else
+//     {
+//         sql_statement="SELECT * FROM cars";
+//     }
+//     QSqlQueryModel *model = new QSqlQueryModel;
+//     model->setQuery(sql_statement,  db_1.db1);
+//     ui->tableView->setModel(model);
+// }
 
 
 void MainWindow::on_pushButton_clicked()
@@ -175,8 +203,8 @@ void MainWindow::on_comboBox_2_currentIndexChanged()
     if (query.exec()) {
         if (query.next()) {
             int model_id1 = query.value(0).toInt();
-            int vid = ui->vid->text().toInt();
-            int do_ = ui->do_1->text().toInt();
+            int vid_1 = vid->text().toInt();
+            int do_ = do_1->text().toInt();
 
             queryString = "SELECT configuration_name, price FROM configurations WHERE model_id = :model_id1";
             query.prepare(queryString);
@@ -188,7 +216,7 @@ void MainWindow::on_comboBox_2_currentIndexChanged()
                     int price =  query.value(1).toInt();
                     if(vid!=0 && do_!=0)
                     {
-                        if(price >= vid && price <= do_)
+                        if(price >= vid_1 && price <= do_)
                         {
                             ui->comboBox->addItem(currentModel);
                             if(ui->comboBox->currentText().isEmpty())
@@ -532,4 +560,5 @@ MainWindow::~MainWindow()
         }
     }
 }*/
+
 

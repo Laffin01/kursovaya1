@@ -32,6 +32,10 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+public slots:
+     void SetTable(QSqlTableModel *model);
+    void mainfilter(QPushButton *button);
+
 private slots:
 
     void on_radioButton_2_clicked();
@@ -66,7 +70,7 @@ private:
       QChartView *chartView;
       QVBoxLayout *layout;
       QBarSet *set;
-
+   QList<QString> selectedBrands;
     QString brand;
     QModelIndexList selectedIndexes;
    int selectedIndex;
@@ -77,7 +81,7 @@ private:
      QStringList  conf_name;
     Connect db_1;
    int carId;
-    QSqlTableModel *model;
+
    QString currentConfiguration;
 
 

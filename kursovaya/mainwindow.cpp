@@ -2,7 +2,6 @@
 #include <QApplication>
 #include <QVBoxLayout>
 #include <QScreen>
-
 #include <QTableView>
 #include <QSqlDatabase>
 #include <QSqlQuery>
@@ -27,6 +26,15 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    QSqlTableModel *model;
+    if (db_1.db1.open()) {
+        qDebug() << "Соединение с базой данных установлено.";
+
+        model = new QSqlTableModel(this, db_1.db1);
+        model->setTable("Cars");
+        model->select();
+        SetTable(model);
+    }
 
     chart = nullptr;
     series = nullptr;
@@ -35,23 +43,6 @@ MainWindow::MainWindow(QWidget *parent)
     chartView = nullptr;
     layout = nullptr;
      set= nullptr;
-    // connect(ui->checkBox_42, SIGNAL(stateChanged(int)), this, SLOT(on_checkBox_stateChanged(int)));
-    // connect(ui->checkBox_35, SIGNAL(stateChanged(int)), this, SLOT(on_checkBox_stateChanged(int)));
-    // connect(ui->checkBox_47, SIGNAL(stateChanged(int)), this, SLOT(on_checkBox_stateChanged(int)));
-    if (db_1.db1.open()) {
-   qDebug() << "Соединение с базой данных установлено.";
-
-        model = new QSqlTableModel(this, db_1.db1);
-        model->setTable("Cars");
-        model->select();
-    }
-
-
-    ui->tableView->setEditTriggers(QAbstractItemView::NoEditTriggers);
-    ui->tableView->setModel(model);
- //ui->tableView->setColumnHidden(3, true);
-    ui->lineEdit_3->setReadOnly(true);
-    ui->lineEdit_2->setReadOnly(true);
 
     ui->lineEdit->setPlaceholderText(QString("Пошук"));
 
@@ -77,15 +68,21 @@ MainWindow::MainWindow(QWidget *parent)
         layout->addWidget(vid);
         layout->addWidget(do_1);
 
-        spoiler1->Setbutton("Volvo");
-        spoiler1->Setbutton("BMW");
-        spoiler1->Setbutton("Mercedes-Benz");
-       spoiler1->Setbutton("Audi");
-       spoiler1->Setbutton("Peugeot");
-        spoiler1->Setbutton("Toyota");
-       spoiler1->Setbutton("Land-Rover");
-        spoiler1->Setbutton("Porsche");
-        spoiler1->Setbutton("Subaru");
+        spoiler1->Setbutton("Volvo", true);
+        spoiler1->Setbutton("BMW", true);
+        spoiler1->Setbutton("Mercedes-Benz", true);
+       spoiler1->Setbutton("Audi", true);
+       spoiler1->Setbutton("Peugeot", true);
+        spoiler1->Setbutton("Toyota", true);
+       spoiler1->Setbutton("Land-Rover", true);
+        spoiler1->Setbutton("Porsche", true);
+        spoiler1->Setbutton("Subaru", true);
+
+
+        spoiler2->Setbutton("від 20000", false);
+        spoiler2->Setbutton("до 40000", false);
+        spoiler2->Setbutton("до 80000", false);
+
 
 
     layout->addWidget(spoiler1);
@@ -532,6 +529,62 @@ void MainWindow::on_radioButton_3_clicked()
 
 }
 
+
+
+// Добавьте в ваш класс MainWindow список выбранных марок
+
+
+void MainWindow::mainfilter(QPushButton *button)
+{
+    QSqlQuery query;
+    QSqlTableModel *model = new QSqlTableModel;
+    QString textfrombutton = button -> text();
+
+    // Проверяем, выбрана ли кнопка
+    if(button->isCheckable())
+    {
+        // Если кнопка выбрана, добавляем марку в список
+        if(!selectedBrands.contains(textfrombutton))
+        {
+            selectedBrands.append(textfrombutton);
+        }
+    }
+    else
+    {
+        // Если кнопка не выбрана, удаляем марку из списка
+        selectedBrands.removeOne(textfrombutton);
+    }
+
+    // Если выбрана хотя бы одна марка, обновляем фильтр модели
+    if(!selectedBrands.isEmpty())
+    {
+        QString filter = "Марка IN ('" + selectedBrands.join("', '") + "')";
+        model->setTable("cars");
+        model->setFilter(filter);
+        model->select();
+    }
+    else
+    {
+        // Если ни одна марка не выбрана, показываем все данные
+        model->setTable("cars");
+        model->select();
+    }
+
+    MainWindow::SetTable(model); // Установка модели для текущего экземпляра MainWindow
+}
+
+
+void MainWindow::SetTable(QSqlTableModel *model)
+{
+
+    ui->tableView->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    ui->tableView->setModel(model);
+    //ui->tableView->setColumnHidden(3, true);
+
+}
+
+
+
 MainWindow::~MainWindow()
 {
 
@@ -540,25 +593,6 @@ MainWindow::~MainWindow()
 }
 
 
-/*void MainWindow::on_comboBox_3_currentIndexChanged(int index1)
-{
-    QSqlQuery modelQuery;
-        ui->comboBox_4->clear();
-        ui->comboBox_5->clear();
-    QString brand1 = ui->comboBox_3->currentText();
-    modelQuery.prepare("SELECT DISTINCT Модель, Комплектація FROM zamovlennya WHERE Марка =:brand");
-    modelQuery.bindValue(":brand", brand1);
-    if(modelQuery.exec())
-    {
-        while (modelQuery.next())
-        {
 
-            QString brand_model = modelQuery.value("Модель").toString();
-            QString model_conf = modelQuery.value("Комплектація").toString();
-                ui->comboBox_4->addItem(brand_model);
-                ui->comboBox_5->addItem(model_conf);
-        }
-    }
-}*/
 
 

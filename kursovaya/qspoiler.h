@@ -26,7 +26,7 @@
             QVBoxLayout *layout = new QVBoxLayout;
 
             QPixmap pixmap;
-            pixmap = QPixmap("C:/Users/boba/Downloads/down-arrow_icon-icons.com_64915.svg");
+    pixmap = QPixmap("C:/Users/boba/Downloads/down-arrow_icon-icons.com_64915.svg");
             QIcon ButtonIcon(pixmap.scaled(30, 30, Qt::KeepAspectRatio, Qt::SmoothTransformation));
             button->setIcon(ButtonIcon);
             button->setIconSize(QSize(20, 20));
@@ -45,7 +45,7 @@
             layout->addWidget(subButtons);
             this->setLayout(layout);
 
-            subButtons->hide();
+           subButtons->hide();
             connect(button, &QPushButton::clicked, this, &QSpoiler::toggle);
         }
 
@@ -79,7 +79,6 @@
 
         void setIconOnChecked(QPushButton *button, bool checked, bool checkable)
         {
-
             QPixmap pixmap("C:/Users/boba/Downloads/icons8-галочка.svg");
             QIcon ButtonIcon(pixmap.scaled(30, 30, Qt::KeepAspectRatio, Qt::SmoothTransformation));
 
@@ -87,24 +86,29 @@
                 if (checkable != false) {
                     button->setIcon(ButtonIcon);
                     button->setIconSize(QSize(30, 30));
-                    mainWindow->mainfilter(button);
                 }
                 else  {
-                    if (lastButton != nullptr) { // Проверяем, что lastButton указывает на действительный объект
+                    if (lastButton != nullptr) {
                         lastButton->setChecked(false);
-                        lastButton->setIcon(QIcon()); // Удаляем иконку с предыдущей кнопки
+                        lastButton->setIcon(QIcon());
                     }
                     button->setIcon(ButtonIcon);
                     button->setIconSize(QSize(30, 30));
-                    lastButton = button; // Сохраняем ссылку на текущую кнопку
+                    lastButton = button;
                 }
             }
             else {
-                if (button) { // Добавляем проверку на существование кнопки перед установкой иконки
-                    button->setIcon(QIcon());
+                button->setIcon(QIcon());
+                if (lastButton == button) {
+                    lastButton = nullptr;
                 }
             }
+
+            if (button && checkable) {
+              mainWindow->mainfilter(button);
+            }
         }
+
 
 
 
@@ -113,13 +117,15 @@
         void toggle()
         {
             QPixmap pixmap;
-            pixmap = QPixmap("C:/Users/boba/Downloads/up-arrow_icon-icons.com_65094.svg");
+
 
             if (subButtons->isVisible()) {
+                pixmap = QPixmap("C:/Users/boba/Downloads/down-arrow_icon-icons.com_64915.svg");
                 subButtons->hide();
-                 pixmap = QPixmap("C:/Users/boba/Downloads/down-arrow_icon-icons.com_64915.svg");
-            } else {
 
+            }
+            else {
+                pixmap = QPixmap("C:/Users/boba/Downloads/up-arrow_icon-icons.com_65094.svg");
                 subButtons->show();
             }
             QIcon ButtonIcon(pixmap.scaled(30, 30, Qt::KeepAspectRatio, Qt::SmoothTransformation));

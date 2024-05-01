@@ -14,6 +14,7 @@
 #include <QtCharts/QValueAxis>
 #include <QVBoxLayout>
 #include <QLineEdit>
+#include <QLabel>
 #include "profile_win.h"
 #include "DbConnection.h"
 QT_BEGIN_NAMESPACE
@@ -34,7 +35,7 @@ public:
 
 public slots:
      void SetTable(QSqlTableModel *model);
-    void mainfilter(QPushButton *button);
+     void mainfilter(QPushButton *button);
 
 private slots:
 
@@ -42,10 +43,10 @@ private slots:
     void on_radioButton_clicked();
     void on_radioButton_3_clicked();
     void on_tableView_clicked( const QModelIndex &index);
-    void on_comboBox_currentIndexChanged();
+
 
     void on_pushButton_clicked();
-    void on_comboBox_2_currentIndexChanged();
+
     void on_tableView_2_clicked(const QModelIndex &index);
     void on_pushButton_3_clicked();
    void on_pushButton_2_clicked();
@@ -55,6 +56,13 @@ private slots:
        void on_pushButton_7_clicked();
     void create_graphic(QStringList x,  QStringList y1);
 
+       void on_lineEdit_textChanged();
+
+   void on_comboBox_2_currentIndexChanged(int index);
+
+
+
+    void on_comboBox_currentIndexChanged(int index);
 
 
 
@@ -63,6 +71,7 @@ private:
    Ui::MainWindow *ui;
     QLineEdit *vid = new QLineEdit();
     QLineEdit *do_1= new QLineEdit();
+    QLabel *filter = new QLabel();
       QChart *chart;
       QBarSeries *series;
       QBarCategoryAxis *axisX;

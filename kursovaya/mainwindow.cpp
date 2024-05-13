@@ -38,7 +38,7 @@ MainWindow::MainWindow(QWidget *parent)
         model->select();
         SetTable(model);
     }
-
+    ui->tableView_2->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     chart = nullptr;
     series = nullptr;
     axisX = nullptr;
@@ -47,7 +47,7 @@ MainWindow::MainWindow(QWidget *parent)
     layout = nullptr;
      set= nullptr;
 
-    ui->lineEdit->setPlaceholderText(QString("Пошук"));
+
 
     ui->groupBox_5->raise();
 
@@ -63,7 +63,8 @@ MainWindow::MainWindow(QWidget *parent)
     QSpoiler *spoiler1 = new QSpoiler("По маркам", this);
 
     QSpoiler *spoiler3 = new QSpoiler("По країні виробнику", this);
-    QSpoiler *spoiler4 = new QSpoiler("По типу кузова", this);
+    QSpoiler *spoiler4 = new QSpoiler("За потужністю (в к.с.)", this);
+    QSpoiler *spoiler5 = new QSpoiler("По об'єму двигуна", this);
 
     vid->setPlaceholderText(QString("Від"));
      do_1->setPlaceholderText(QString("До"));
@@ -90,11 +91,18 @@ MainWindow::MainWindow(QWidget *parent)
         spoiler3->Setbutton("Японія", true);
         spoiler3->Setbutton("Великобританія", true);
 
+        spoiler4->Setbutton("від 100 до 200", false);
+        spoiler4->Setbutton("від 200 до 300", false);
+        spoiler4->Setbutton("від 300 до 400", false);
 
+        spoiler5->Setbutton("від 1 до 2", false);
+        spoiler5->Setbutton("від 2 до 3", false);
+        spoiler5->Setbutton("від 3 до 4", false);
 
     layout->addWidget(spoiler1);
     layout->addWidget(spoiler3);
     layout->addWidget(spoiler4);
+    layout->addWidget(spoiler5);
 
     ui->scrollArea->widget()->setLayout(layout);
 
@@ -109,16 +117,33 @@ void MainWindow::on_tableView_clicked(const QModelIndex &index)
     ui->comboBox_2->clear();
 
     carId = ui->tableView->model()->data(index).toInt();
-    query.prepare("SELECT model_name FROM models_of_the_car WHERE conf_id = :carId");
-    query.bindValue(":carId", carId);
-
-    if (query.exec()) {
+    if(filtercb.isEmpty())
+    {
+        query.prepare("SELECT model_name FROM models_of_the_car WHERE conf_id = :carId");
+        query.bindValue(":carId", carId);
+       if (query.exec()) {
         while (query.next()) {
             QString configuration = query.value("model_name").toString();
             ui->comboBox_2->addItem(configuration);
         }
-    }
-
+     }
+   }
+    else
+    {
+            qDebug() << filtercb;
+        for(int i=0;i<filtercb.size();i++)
+        {
+           query.prepare("SELECT model_name FROM models_of_the_car WHERE conf_id = :carId AND model_id =:resultsmodel ");
+           query.bindValue(":carId", carId);
+            query.bindValue(":resultsmodel", filtercb[i]);
+            if (query.exec()) {
+                while (query.next()) {
+                    QString configuration = query.value("model_name").toString();
+                    ui->comboBox_2->addItem(configuration);
+                }
+            }
+        }
+ }
 }
 
 void MainWindow::on_comboBox_currentIndexChanged(int index)
@@ -126,6 +151,17 @@ void MainWindow::on_comboBox_currentIndexChanged(int index)
     currentConfiguration.clear();
     QSqlQuery query;
     currentConfiguration = ui->comboBox->currentText();
+    query.prepare("SELECT color, doors, seats, engine_volume, power, fuel_consumption, fuel_type, transmission, vin_code FROM сonfigurations WHERE configuration_name = :configuration");
+    query.bindValue(":configuration", currentConfiguration);
+    if(query.exec()) {
+        QStringList lineEdits = {"lineEdit_20", "lineEdit_21", "lineEdit_22", "lineEdit_23", "lineEdit_24", "lineEdit_25", "lineEdit_26", "lineEdit_27", "lineEdit_28"};
+        QStringList queryValues = {"color", "doors", "seats", "engine_volume", "power", "fuel_consumption", "fuel_type", "transmission", "vin_code"};
+        while(query.next()) {
+            for(int i = 0; i < lineEdits.size(); i++) {
+                this->findChild<QLineEdit*>(lineEdits[i])->setText(query.value(queryValues[i]).toString());
+            }
+        }
+    }
     query.prepare("SELECT price FROM сonfigurations WHERE configuration_name = :configuration");
     query.bindValue(":configuration", currentConfiguration);
     ui->lineEdit_2->clear();
@@ -138,7 +174,6 @@ void MainWindow::on_comboBox_currentIndexChanged(int index)
             }
         }
     }
-
 }
 
 // void MainWindow::on_checkBox_stateChanged()
@@ -208,6 +243,22 @@ void MainWindow::on_comboBox_2_currentIndexChanged(int index)
             int vid_1 = vid->text().toInt();
             int do_ = do_1->text().toInt();
 
+            if(!filterofconf.isEmpty())
+            {
+                for(int i=0;i<filterofconf.size();i++)
+                {
+                    query.prepare("SELECT configuration_name FROM `сonfigurations` WHERE configuration_id = :filterofconf AND model_id=:model_id1");
+                     query.bindValue(":model_id1", model_id1);
+                    query.bindValue(":filterofconf", filterofconf[i]);
+                    if (query.exec()) {
+                        while (query.next()) {
+                            QString configuration = query.value("configuration_name").toString();
+                            ui->comboBox->addItem(configuration);
+                        }
+                    }
+                }
+            }
+
             queryString = "SELECT configuration_name, price FROM сonfigurations WHERE model_id = :model_id1";
             query.prepare(queryString);
             query.bindValue(":model_id1", model_id1);
@@ -223,13 +274,14 @@ void MainWindow::on_comboBox_2_currentIndexChanged(int index)
                             ui->comboBox->addItem(currentModel);
                         }
                     }
-                    else{
+
+                    else if(filterofconf.isEmpty())
+                    {
                         ui->comboBox->addItem(currentModel);
                     }
                 }
                 if (ui->comboBox->count() == 0) {
                     ui->comboBox_2->removeItem(ui->comboBox_2->currentIndex());
-
                 }
 
             }
@@ -251,8 +303,7 @@ void MainWindow::on_lineEdit_textChanged()
         buttonText_do_1 = "99999999999999999";
     }
 
-    qDebug() << buttonText_vid;
-    qDebug() << buttonText_do_1;
+
     QSqlTableModel *model = new QSqlTableModel;
     QList<int> ids;
     query.prepare("SELECT model_id FROM `сonfigurations` WHERE price >= :pricefil_vid AND  price <= :pricefil_do_1 ");
@@ -303,6 +354,7 @@ void MainWindow::on_lineEdit_textChanged()
 
         if(query.exec()) {
             QStringList lineEdits = {"lineEdit_4", "lineEdit_6", "lineEdit_7", "lineEdit_8", "lineEdit_9", "lineEdit_10", "lineEdit_11", "lineEdit_12", "lineEdit_13", "lineEdit_19"};
+
             QStringList queryValues = {"color", "doors", "seats", "engine_volume", "power", "fuel_consumption", "fuel_type", "transmission", "price", "vin_code"};
 
             while(query.next()) {
@@ -394,19 +446,25 @@ void MainWindow::on_pushButton_7_clicked()
 {
     Insert_info_to_the_table();
     QDateTime currentDateTime = QDateTime::currentDateTime();
-    QString confirmationText = "<h2>Подтверждение заказа:</h2><br>";
-    confirmationText += "<b>Комплектація:</b> " + ui->lineEdit_3->text() + "<br>";
-    confirmationText += "<b>Модель:</b> " + ui->lineEdit_5->text() + "<br>";
-    confirmationText += "<b>Цвет:</b> " + ui->lineEdit_4->text() + "<br>";
-    confirmationText += "<b>Количество дверей:</b> " + ui->lineEdit_6->text() + "<br>";
-    confirmationText += "<b>Количество мест:</b> " + ui->lineEdit_7->text() + "<br>";
-    confirmationText += "<b>Тип топлива:</b> " + ui->lineEdit_8->text() + "<br>";
-    confirmationText += "<b>Тип трансмиссии:</b> " + ui->lineEdit_9->text() + "<br>";
-    confirmationText += "<b>Объем двигателя:</b> " + ui->lineEdit_10->text() + "<br>";
-    confirmationText += "<b>Расход топлива:</b> " + ui->lineEdit_11->text() + "<br>";
-    confirmationText += "<b>Мощность:</b> " + ui->lineEdit_12->text() + "<br>";
-    confirmationText += "<b>Цена:</b> " + ui->lineEdit_13->text() + "<br>";
-    confirmationText += "<br><b>Дата и время оформления заказа:</b> " + currentDateTime.toString("dd.MM.yyyy HH:mm:ss") + "<br>";
+    QStringList orderInfo = {
+        "<b>Комплектація:</b> " + ui->lineEdit_3->text(),
+        "<b>Модель:</b> " + ui->lineEdit_5->text(),
+        "<b>Колір:</b> " + ui->lineEdit_4->text(),
+        "<b>Кількість дверей:</b> " + ui->lineEdit_6->text(),
+        "<b>Кількість місць:</b> " + ui->lineEdit_7->text(),
+        "<b>Тип палива:</b> " + ui->lineEdit_11->text(),
+        "<b>Тип трансміссії:</b> " + ui->lineEdit_12->text(),
+        "<b>Об'єм двигуна:</b> " + ui->lineEdit_8->text(),
+        "<b>Витрата палива:</b> " + ui->lineEdit_10->text(),
+        "<b>Потужність:</b> " + ui->lineEdit_9->text(),
+        "<b>VIN:</b> " + ui->lineEdit_19->text(),
+        "<b>Ціна:</b> " + ui->lineEdit_13->text()
+    };
+    QString confirmationText = "<h2>Підтвердження замовлення:</h2><br>";
+    for (const QString &info : orderInfo) {
+        confirmationText += info + "<br>";
+    }
+    confirmationText += "<br><b>Дата та час замовлення:</b> " + currentDateTime.toString("dd.MM.yyyy HH:mm:ss") + "<br>";
     confirmationText += "<h3>Дякуємо за замовлення!</h3>";
     QPdfWriter pdfWriter("OrderConfirmation.pdf");
     QPainter painter(&pdfWriter);
@@ -430,8 +488,8 @@ void MainWindow::create_graphic(QStringList x,  QStringList y1)
 {
     QStringList categories;
     int max_y = 0;
-          chart = new QChart();
-           series = new QBarSeries(); // Создайте одну серию здесь
+    chart = new QChart();
+    series = new QBarSeries();
 
     for(int i=0; i < x.count(); i++)
     {
@@ -442,17 +500,19 @@ void MainWindow::create_graphic(QStringList x,  QStringList y1)
             max_y = y;
         }
 
-
         set = new QBarSet(x[i]);
         *set << y;
+        QColor color = QColor::fromHsv((i * 360) / x.count(), 255, 255); // Установите цвет здесь
+        set->setColor(color);
         series->append(set);
-
     }
 
-    chart->addSeries(series); // Добавьте серию в график здесь
-
+    chart->addSeries(series);
     axisX = new QBarCategoryAxis();
-    axisX->append("Кількість проданих автомобілей (по маркам)");
+    if(ui->toolBox->currentIndex()==0)
+    {
+        axisX->append("Кількість проданих автомобілей (по маркам)");
+    }
     chart->setAxisX(axisX);
 
     axisY = new QValueAxis();
@@ -470,9 +530,10 @@ void MainWindow::create_graphic(QStringList x,  QStringList y1)
         delete ui->widget->layout();
     }
 
-     ui->widget->setLayout(layout);
-
+    ui->widget->setLayout(layout);
 }
+
+
 
 
 void MainWindow::on_radioButton_2_clicked()
@@ -503,15 +564,13 @@ void MainWindow::on_radioButton_2_clicked()
         if(query.exec() && query.next()) {
 
             QString y = query.value(0).toString();
-            qDebug() << y;
+
             y1.append(y);
         }
         else {
             qDebug() << "Query failed for brand:" << brand[i];
         }
     }
-
-    // Create graphic using the retrieved data
   create_graphic(brand, y1);
 
 }
@@ -626,6 +685,72 @@ void MainWindow::mainfilter(QPushButton *button)
     MainWindow::SetTable(model);
 }
 
+
+void MainWindow::falsefilter(QPushButton *button)
+{
+    QSqlQuery query;
+
+    QSqlTableModel *model = new QSqlTableModel;
+    QString textfrombutton = button -> text();
+
+    QRegularExpression re("(\\d+)");
+    QRegularExpressionMatchIterator i = re.globalMatch(textfrombutton);
+    QStringList list;
+        list.clear();
+    while (i.hasNext()) {
+        QRegularExpressionMatch match = i.next();
+        list << match.captured(1);
+    }
+
+    filtercb.clear();
+    filterofconf.clear();
+    query.prepare("SELECT Distinct model_id FROM `сonfigurations` WHERE (engine_volume BETWEEN '" + list[0] + "' AND '" + list[1] + "') OR (power BETWEEN '" + list[0] + "' AND '" + list[1] + "')");
+    if(query.exec())
+    {
+        while(query.next())
+        {
+            filtercb.append(query.value("model_id").toString());
+
+        }
+
+    }
+
+    query.prepare("SELECT Distinct configuration_id FROM `сonfigurations` WHERE (engine_volume BETWEEN '" + list[0] + "' AND '" + list[1] + "') OR (power BETWEEN '" + list[0] + "' AND '" + list[1] + "')");
+    if(query.exec())
+    {
+        while(query.next())
+        {
+
+            filterofconf.append(query.value("configuration_id").toString());
+        }
+
+    }
+
+    QSet<QString> uniqueResults;
+    for(int i=0;i < filtercb.size();i++)
+    {
+        query.prepare("SELECT conf_id FROM `models_of_the_car` WHERE model_id =:model_filter_id");
+        query.bindValue(":model_filter_id",filtercb[i]);
+
+        if(query.exec())
+        {
+            while(query.next())
+            {
+                uniqueResults.insert(query.value("conf_id").toString());
+            }
+        }
+    }
+    results = uniqueResults.values();
+
+    QString filterString = "id IN ('" + results.join("', '") + "')";
+    model->setTable("cars");
+    model->setFilter(filterString);
+    model->select();
+
+    MainWindow::SetTable(model);
+
+}
+
 void MainWindow::SetTable(QSqlTableModel *model)
 {
     ui->tableView->setEditTriggers(QAbstractItemView::NoEditTriggers);
@@ -635,8 +760,6 @@ void MainWindow::SetTable(QSqlTableModel *model)
 }
 
 
-
-
 MainWindow::~MainWindow()
 {
 
@@ -644,10 +767,28 @@ MainWindow::~MainWindow()
 
 }
 
+void MainWindow::on_pushButton_8_clicked()
+{
+    QSqlQuery query;
 
-
-
-
-
-
+    QDate date_vid = QDate::fromString(ui->dateEdit->text(), "dd.MM.yyyy");
+    QDate date_do = QDate::fromString(ui->dateEdit_2->text(), "dd.MM.yyyy");
+     QStringList y;
+    QStringList date;
+      query.prepare("SELECT `Дата оформлення замовлення`, COUNT(*) FROM zamovlennya WHERE (`Дата оформлення замовлення` BETWEEN :date_vid AND :date_do) GROUP BY `Дата оформлення замовлення`");
+    query.bindValue(":date_vid", date_vid);
+    query.bindValue(":date_do", date_do);
+    if(query.exec()) {
+        while(query.next()) {
+            QDate x = query.value(0).toDate();
+            qDebug() << x.toString("dd.MM.yyyy");
+            date.append(x.toString("dd.MM.yyyy"));
+            QString _y;
+             _y = query.value(1).toString();
+            y.append(_y);
+        }
+    }
+    qDebug() << y;
+    create_graphic(date, y);
+}
 

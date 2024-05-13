@@ -107,6 +107,8 @@
             if (button && checkable) {
               mainWindow->mainfilter(button);
             }
+            else
+                mainWindow->falsefilter(button);
         }
 
 

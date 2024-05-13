@@ -1,8 +1,59 @@
-CREATE TABLE `car_showroom`.`cars` (
+CREATE TABLE models_of_the_car (
+    model_name VARCHAR(50),
+    year_of_release INT,
+    model_id INT auto_increment primary key,
+    conf_id INT,
+    FOREIGN KEY (conf_id) REFERENCES сonfigurations(configuration_id)
+);
+
+INSERT INTO models_of_the_car (model_name, year_of_release, model_id, conf_id) VALUES
+('XC90', 2019, 1, 1),
+('XC60', 2021, 2, 1),
+('S90', 2021, 3, 1),
+('X5', 2019, 4, 2),
+('X6', 2018, 5, 2),
+('C', 2019, 6, 3),
+('CLS', 2021, 7, 3),
+('A4', 2019, 8, 4),
+('A5', 2021, 9, 4),
+('A7', 2021, 10, 4),
+('A8', 2019, 11, 4),
+('208', 2020, 12, 5),
+('3008', 2021, 13, 5),
+('408', 2019, 14, 5),
+('Land-Cruiser', 2019, 15, 6),
+('Camry', 2019, 16, 6),
+('Corolla', 2021, 17, 6),
+('Range-Rover', 2021, 18, 7),
+('Discovery', 2019, 19, 7),
+('Defender', 2020, 20, 7),
+('Panamera', 2021, 21, 8),
+('Cayenne', 2019, 22, 8),
+('Cayman', 2019, 23, 8),
+('Forester', 2019, 24, 9),
+('Impreza', 2020, 25, 9),
+('Outback', 2021, 26, 9),
+('Legacy', 2019, 27, 9);
+
+
+
+CREATE TABLE employee (
+    employee_id INT auto_increment primary key,
+    town VARCHAR(255),
+   `password` INT,
+    fib VARCHAR(255),
+    number_of_the_phone VARCHAR(255),
+    birthdate DATE
+);
+
+CREATE TABLE `cars` (
  id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 `Марка` VARCHAR(45) NOT NULL,
-`Країна виробник` VARCHAR(45) NOT NULL
+`Країна виробник` VARCHAR(45) NOT NULL,
+ model_id INT,
+ FOREIGN KEY (model_id) REFERENCES models_of_the_car(model_id)
 );
+
 INSERT INTO cars (`Марка`, `Країна виробник`)
 VALUES 
 ('Volvo', 'Швеція'),
@@ -15,27 +66,10 @@ VALUES
 ('Porsche', 'Німеччина'),
 ('Subaru', 'Японія')
 
-/*CREATE TABLE `car_showroom`.`listofcars` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `Марка` VARCHAR(45) NOT NULL,
-  `Модель` VARCHAR(45) NOT NULL,
-  `Рік випуску` YEAR(4) NOT NULL,
-  `Комплектація` VARCHAR(45) NOT NULL,
-  `Ціна` INT NOT NULL,
-  PRIMARY KEY (`id`));
-
-INSERT INTO listofcars (`Марка`, `Модель`, `Рік Випуску`, `Комплектація`,`Ціна`)
-VALUES 
-('Volvo', 'x','2023','Преміум',1000000),
-('BMW', 'x5','2023','Преміум',1600000),
-('Mercedes-Benz', 'cls','2022','Преміум',1900000),
-('Porsche', 'Cayenne','2020','Преміум',5000000),
-('Land-Rover', 'Range Rover','2021','Преміум',7000000)*/
 
 
 
-
-/*CREATE TABLE `car_showroom`.`zamovlennya` (
+CREATE TABLE `zamovlennya` (
     `zamovlennya_id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY, 
 `employee_id` INT NOT NULL ,  
   `Марка` VARCHAR(45) NOT NULL,
@@ -47,10 +81,13 @@ VALUES
     `Місто проживання` VARCHAR(30)  NOT NULL,
   `РНОКПП` VARCHAR(20)  NOT NULL,
   `Номер паспорта` VARCHAR(30)  NOT NULL,
-  `Номер телефона` VARCHAR(30) NOT NULL)*/
+  `Номер телефона` VARCHAR(30) NOT NULL,
+  model_id INT,
+  FOREIGN KEY (model_id) REFERENCES models_of_the_car(model_id),
+  FOREIGN KEY (employee_id) REFERENCES employee(employee_id)
+);
 
--- Create CarConfigurations table
-/*CREATE TABLE сonfigurations (
+CREATE TABLE сonfigurations (
     configuration_id INT PRIMARY KEY auto_increment,
     configuration_name VARCHAR(50),
     price DECIMAL(10, 2),
@@ -63,10 +100,10 @@ VALUES
     engine_volume DECIMAL(3, 1),
     fuel_consumption DECIMAL(4, 1),
     `power` INT,
-    vin_code VARCHAR(17) -- Assuming VIN code is 17 characters long
+    vin_code VARCHAR(17),
+    FOREIGN KEY (model_id) REFERENCES models_of_the_car(model_id)
 );
 
--- Insert data into CarConfigurations table
 INSERT INTO сonfigurations ( configuration_name, price, model_id, color, doors, seats, fuel_type, transmission, engine_volume, fuel_consumption,`power`, vin_code)
 VALUES
     ('Base XC90', '50000', '1', 'Black', '4', '5', 'Gasoline', 'Automatic', '2', '8.5', '250', 'VIN11111111111111'),
@@ -123,7 +160,7 @@ VALUES
     ('Premium Outback', '55000', '26', 'Green', '4', '5', 'Diesel', 'Automatic', '2.5', '9', '220', 'VIN22222222222227'),
     ('Base Legacy', '40000', '27', 'Silver', '4', '5', 'Gasoline', 'Manual', '1.8', '7.5', '120', 'VIN33333333333338'),
     ('Premium Legacy', '50000', '27', 'Black', '4', '5', 'Gasoline', 'Automatic', '2', '8', '150', 'VIN44444444444449');
-*/
+
 
 
 

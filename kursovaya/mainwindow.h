@@ -36,7 +36,7 @@ public:
 public slots:
      void SetTable(QSqlTableModel *model);
      void mainfilter(QPushButton *button);
-
+     void falsefilter(QPushButton *button);
 private slots:
 
     void on_radioButton_2_clicked();
@@ -66,6 +66,8 @@ private slots:
 
 
 
+    void on_pushButton_8_clicked();
+
 private:
 
    Ui::MainWindow *ui;
@@ -91,6 +93,9 @@ private:
     Connect db_1;
    int carId;
 
+    QStringList results;
+       QStringList filtercb;
+         QStringList filterofconf;
    QString currentConfiguration;
 
 

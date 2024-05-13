@@ -40,7 +40,7 @@
     </size>
    </property>
    <layout class="QGridLayout" name="gridLayout_10">
-    <item row="0" column="1">
+    <item row="0" column="0">
      <widget class="QTabWidget" name="tabWidget">
       <property name="enabled">
        <bool>true</bool>
@@ -58,7 +58,7 @@
        <string notr="true">font: italic 14pt &quot;Times New Roman&quot;;</string>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="tab">
        <attribute name="title">
@@ -260,25 +260,6 @@
           </property>
           <layout class="QGridLayout" name="gridLayout_7">
            <item row="0" column="0">
-            <widget class="QLineEdit" name="lineEdit">
-             <property name="minimumSize">
-              <size>
-               <width>0</width>
-               <height>25</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>16777215</width>
-               <height>30</height>
-              </size>
-             </property>
-             <property name="focusPolicy">
-              <enum>Qt::ClickFocus</enum>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="0">
             <widget class="QTableView" name="tableView"/>
            </item>
           </layout>
@@ -676,7 +657,7 @@
       </widget>
       <widget class="QWidget" name="tab_3">
        <attribute name="title">
-        <string>Страница</string>
+        <string>Рейтинг проданих авто</string>
        </attribute>
        <layout class="QGridLayout" name="gridLayout_5">
         <item row="1" column="0">
@@ -698,15 +679,15 @@
            </size>
           </property>
           <property name="currentIndex">
-           <number>2</number>
+           <number>1</number>
           </property>
           <widget class="QWidget" name="page_5">
            <property name="geometry">
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>264</width>
-             <height>111</height>
+             <width>1006</width>
+             <height>145</height>
             </rect>
            </property>
            <attribute name="label">
@@ -741,13 +722,26 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>100</width>
-             <height>30</height>
+             <width>1006</width>
+             <height>145</height>
             </rect>
            </property>
            <attribute name="label">
             <string>Рейтинг проданих авто (по ціні)</string>
            </attribute>
+           <widget class="QRadioButton" name="radioButton_4">
+            <property name="geometry">
+             <rect>
+              <x>10</x>
+              <y>10</y>
+              <width>151</width>
+              <height>22</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>Рейтинг по ціні</string>
+            </property>
+           </widget>
           </widget>
           <widget class="QWidget" name="page_3">
            <property name="geometry">
@@ -761,6 +755,81 @@
            <attribute name="label">
             <string>Рейтинг проданих авто (по даті)</string>
            </attribute>
+           <layout class="QGridLayout" name="gridLayout_8">
+            <item row="2" column="0" colspan="4">
+             <widget class="QPushButton" name="pushButton_8">
+              <property name="text">
+               <string>Відсортувати</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="3">
+             <widget class="QDateEdit" name="dateEdit_2">
+              <property name="maximumSize">
+               <size>
+                <width>200</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="dateTime">
+               <datetime>
+                <hour>21</hour>
+                <minute>0</minute>
+                <second>0</second>
+                <year>2023</year>
+                <month>12</month>
+                <day>31</day>
+               </datetime>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="0">
+             <widget class="QLabel" name="label_32">
+              <property name="maximumSize">
+               <size>
+                <width>100</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>Від</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="2">
+             <widget class="QLabel" name="label_33">
+              <property name="maximumSize">
+               <size>
+                <width>100</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>  До</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="1">
+             <widget class="QDateEdit" name="dateEdit">
+              <property name="maximumSize">
+               <size>
+                <width>200</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="dateTime">
+               <datetime>
+                <hour>21</hour>
+                <minute>0</minute>
+                <second>0</second>
+                <year>2023</year>
+                <month>12</month>
+                <day>31</day>
+               </datetime>
+              </property>
+             </widget>
+            </item>
+           </layout>
           </widget>
          </widget>
         </item>

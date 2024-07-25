@@ -2,6 +2,7 @@
 #include <QApplication>
 #include <QVBoxLayout>
 #include <QScreen>
+#include "QMessageBox"
 #include <QTableView>
 #include <QSqlDatabase>
 #include <QSqlQuery>
@@ -17,6 +18,8 @@
 #include <QPdfWriter>
 #include <QPainter>
 #include <QRegularExpression>
+#include <QRegularExpressionValidator>
+
 #include <QtSvgWidgets/QSvgWidget>
 #include <qspoiler.h>
 #include "mainwindow.h"
@@ -50,7 +53,7 @@ MainWindow::MainWindow(QWidget *parent)
 
 
     ui->groupBox_5->raise();
-
+     ui->tableView_2->setModel(new QStandardItemModel(this));
     QPixmap pixmap("D:/c++/kursovaya/arrow.svg");
     QIcon icon(pixmap);
     ui->pushButton_5->setGeometry(0,0,50,50);
@@ -58,8 +61,8 @@ MainWindow::MainWindow(QWidget *parent)
     ui->pushButton_5->setStyleSheet("background-color: transparent; border: none;");
     ui->pushButton_5->setIcon(icon);
 
-
-
+ ui->tableView_2->setSelectionBehavior(QAbstractItemView::SelectRows);
+ ui->tableView->setSelectionBehavior(QAbstractItemView::SelectRows);
     QSpoiler *spoiler1 = new QSpoiler("По маркам", this);
 
     QSpoiler *spoiler3 = new QSpoiler("По країні виробнику", this);
@@ -73,29 +76,29 @@ MainWindow::MainWindow(QWidget *parent)
     QVBoxLayout *layout = new QVBoxLayout;
     layout->addWidget(filter);
         layout->addWidget(vid);
-        layout->addWidget(do_1);
+    layout->addWidget(do_1);
 
-        spoiler1->Setbutton("Volvo", true);
-        spoiler1->Setbutton("BMW", true);
-        spoiler1->Setbutton("Mercedes-Benz", true);
-       spoiler1->Setbutton("Audi", true);
-       spoiler1->Setbutton("Peugeot", true);
-        spoiler1->Setbutton("Toyota", true);
-       spoiler1->Setbutton("Land-Rover", true);
-        spoiler1->Setbutton("Porsche", true);
-        spoiler1->Setbutton("Subaru", true);
+    spoiler1->Setbutton("Volvo", true);
+    spoiler1->Setbutton("BMW", true);
+    spoiler1->Setbutton("Mercedes-Benz", true);
+    spoiler1->Setbutton("Audi", true);
+    spoiler1->Setbutton("Peugeot", true);
+    spoiler1->Setbutton("Toyota", true);
+    spoiler1->Setbutton("Land-Rover", true);
+    spoiler1->Setbutton("Porsche", true);
+    spoiler1->Setbutton("Subaru", true);
 
-        spoiler3->Setbutton("Швеція", true);
-        spoiler3->Setbutton("Німеччина", true);
-        spoiler3->Setbutton("Франція", true);
-        spoiler3->Setbutton("Японія", true);
-        spoiler3->Setbutton("Великобританія", true);
+    spoiler3->Setbutton("Швеція", true);
+    spoiler3->Setbutton("Німеччина", true);
+    spoiler3->Setbutton("Франція", true);
+    spoiler3->Setbutton("Японія", true);
+    spoiler3->Setbutton("Великобританія", true);
 
-        spoiler4->Setbutton("від 100 до 200", false);
-        spoiler4->Setbutton("від 200 до 300", false);
-        spoiler4->Setbutton("від 300 до 400", false);
+    spoiler4->Setbutton("від 100 до 200", false);
+    spoiler4->Setbutton("від 200 до 300", false);
+    spoiler4->Setbutton("від 300 до 400", false);
 
-        spoiler5->Setbutton("від 1 до 2", false);
+    spoiler5->Setbutton("від 1 до 2", false);
         spoiler5->Setbutton("від 2 до 3", false);
         spoiler5->Setbutton("від 3 до 4", false);
 
@@ -110,13 +113,20 @@ MainWindow::MainWindow(QWidget *parent)
 }
 
 
-// установка перечня комплектаций в комбобокс
+
 void MainWindow::on_tableView_clicked(const QModelIndex &index)
 {
     QSqlQuery query;
     ui->comboBox_2->clear();
-
-    carId = ui->tableView->model()->data(index).toInt();
+    QModelIndex firstColumnIndex = ui->tableView->model()->index(index.row(), 1);
+    QString carname = ui->tableView->model()->data(firstColumnIndex).toString();
+    query.prepare("SELECT id FROM cars WHERE Марка =:carId");
+    query.bindValue(":carId", carname);
+     if (query.exec()) {
+         if (query.next()) {
+    carId = query.value("id").toInt();
+         }
+     }
     if(filtercb.isEmpty())
     {
         query.prepare("SELECT model_name FROM models_of_the_car WHERE conf_id = :carId");
@@ -130,7 +140,6 @@ void MainWindow::on_tableView_clicked(const QModelIndex &index)
    }
     else
     {
-            qDebug() << filtercb;
         for(int i=0;i<filtercb.size();i++)
         {
            query.prepare("SELECT model_name FROM models_of_the_car WHERE conf_id = :carId AND model_id =:resultsmodel ");
@@ -151,11 +160,11 @@ void MainWindow::on_comboBox_currentIndexChanged(int index)
     currentConfiguration.clear();
     QSqlQuery query;
     currentConfiguration = ui->comboBox->currentText();
-    query.prepare("SELECT color, doors, seats, engine_volume, power, fuel_consumption, fuel_type, transmission, vin_code FROM сonfigurations WHERE configuration_name = :configuration");
+    query.prepare("SELECT color, doors, seats, engine_volume, power, fuel_consumption, fuel_type, transmission FROM сonfigurations WHERE configuration_name = :configuration");
     query.bindValue(":configuration", currentConfiguration);
     if(query.exec()) {
-        QStringList lineEdits = {"lineEdit_20", "lineEdit_21", "lineEdit_22", "lineEdit_23", "lineEdit_24", "lineEdit_25", "lineEdit_26", "lineEdit_27", "lineEdit_28"};
-        QStringList queryValues = {"color", "doors", "seats", "engine_volume", "power", "fuel_consumption", "fuel_type", "transmission", "vin_code"};
+        QStringList lineEdits = {"lineEdit_20", "lineEdit_21", "lineEdit_22", "lineEdit_23", "lineEdit_24", "lineEdit_25", "lineEdit_26", "lineEdit_27"};
+        QStringList queryValues = {"color", "doors", "seats", "engine_volume", "power", "fuel_consumption", "fuel_type", "transmission"};
         while(query.next()) {
             for(int i = 0; i < lineEdits.size(); i++) {
                 this->findChild<QLineEdit*>(lineEdits[i])->setText(query.value(queryValues[i]).toString());
@@ -176,33 +185,6 @@ void MainWindow::on_comboBox_currentIndexChanged(int index)
     }
 }
 
-// void MainWindow::on_checkBox_stateChanged()
-// {
-//     QStringList brands;
-//     if(ui->checkBox_42->isChecked())
-//     {
-//         brands.append("'" + ui->checkBox_42->text() + "'");
-//     }
-
-//     if(ui->checkBox_35->isChecked())
-//     {
-//         brands.append("'" + ui->checkBox_35->text() + "'");
-//     }
-
-//     QString sql_statement;
-//     if (!brands.isEmpty()) {
-//         QString brandList = brands.join(",");
-//         sql_statement = QString("SELECT * FROM cars WHERE brand IN (%1)").arg(brandList);
-//     }
-//     else
-//     {
-//         sql_statement="SELECT * FROM cars";
-//     }
-//     QSqlQueryModel *model = new QSqlQueryModel;
-//     model->setQuery(sql_statement,  db_1.db1);
-//     ui->tableView->setModel(model);
-// }
-
 
 void MainWindow::on_pushButton_clicked()
 {
@@ -210,7 +192,7 @@ void MainWindow::on_pushButton_clicked()
     model_name_List.append(name_model);
     static QStandardItemModel *model = new QStandardItemModel();
     QSqlQuery query;
-    query.prepare("SELECT * FROM cars WHERE id = :carId");
+    query.prepare("SELECT Марка, `Країна виробник` FROM cars WHERE id = :carId");
     query.bindValue(":carId", carId);
     if(query.exec())
     {
@@ -343,19 +325,19 @@ void MainWindow::on_lineEdit_textChanged()
     QModelIndex index_1 = model->index(index.row(), 1);
      brand = model->data(index_1, Qt::DisplayRole).toString();
 
-    ui->tableView_2->setSelectionBehavior(QAbstractItemView::SelectRows);
+
     selectedIndexes = ui->tableView_2->selectionModel()->selectedIndexes();
     if (!selectedIndexes.isEmpty()) {
         selectedIndex = selectedIndexes.first().row();
         ui->lineEdit_3->setText(conf_name[selectedIndex]);
          ui->lineEdit_5->setText(model_name_List[selectedIndex]);
-        query.prepare("SELECT color, doors, seats, engine_volume, power, fuel_consumption, fuel_type, transmission, price, vin_code FROM сonfigurations WHERE configuration_name = :conf_name");
+        query.prepare("SELECT color, doors, seats, engine_volume, power, fuel_consumption, fuel_type, transmission, price FROM сonfigurations WHERE configuration_name = :conf_name");
         query.bindValue(":conf_name", conf_name[selectedIndex]);
 
         if(query.exec()) {
-            QStringList lineEdits = {"lineEdit_4", "lineEdit_6", "lineEdit_7", "lineEdit_8", "lineEdit_9", "lineEdit_10", "lineEdit_11", "lineEdit_12", "lineEdit_13", "lineEdit_19"};
+            QStringList lineEdits = {"lineEdit_4", "lineEdit_6", "lineEdit_7", "lineEdit_8", "lineEdit_9", "lineEdit_10", "lineEdit_11", "lineEdit_12", "lineEdit_13"};
 
-            QStringList queryValues = {"color", "doors", "seats", "engine_volume", "power", "fuel_consumption", "fuel_type", "transmission", "price", "vin_code"};
+            QStringList queryValues = {"color", "doors", "seats", "engine_volume", "power", "fuel_consumption", "fuel_type", "transmission", "price"};
 
             while(query.next()) {
                 for(int i = 0; i < lineEdits.size(); i++) {
@@ -368,11 +350,38 @@ void MainWindow::on_lineEdit_textChanged()
 
 void MainWindow::on_pushButton_3_clicked()
 {
+    if(ui->tableView_2->model()->rowCount()!=0 && !ui->lineEdit_3->text().isEmpty())
+    {
+        QRegularExpression regExp("[a-zA-Z]*");
 
-    ui->stackedWidget->setCurrentIndex(1);
-    ui->stackedWidget->show();
+        ui->lineEdit_14->setValidator(new QRegularExpressionValidator(regExp, this));
+        ui->lineEdit_18->setValidator(new QDoubleValidator(0, 999999999999, 0, this));
 
+
+        ui->lineEdit_18->setText("+380");
+        connect(ui->lineEdit_18 , &QLineEdit::textChanged, [=] {
+            if(!ui->lineEdit_18->text().startsWith("+380")){
+                ui->lineEdit_18->setText("+380");
+            }
+        });
+
+        ui->lineEdit->setText("VIN");
+        connect(ui->lineEdit, &QLineEdit::textChanged, [=] {
+            if(!ui->lineEdit->text().startsWith("VIN")){
+                ui->lineEdit->setText("VIN");
+            }
+        });
+
+        ui->stackedWidget->setCurrentIndex(1);
+        ui->stackedWidget->show();
+    }
+    else
+    {
+        QMessageBox::warning(this, "Попередження", "Оберіть будь-ласка автомобіль.");
+    }
 }
+
+
 
 void MainWindow::on_pushButton_2_clicked()
 {
@@ -416,7 +425,7 @@ void MainWindow::on_pushButton_2_clicked()
             qDebug() << "Query failed: " << query.lastError();
         }
 
-        query.prepare("INSERT INTO zamovlennya (employee_id, `Марка`, `Модель`, `Комплектація`, `Ціна`, `Дата оформлення замовлення`, `ФІБ`, `Місто проживання`, `РНОКПП`, `Номер паспорта`, `Номер телефона`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        query.prepare("INSERT INTO zamovlennya (employee_id, `Марка`, `Модель`, `Комплектація`, `Ціна`, `Дата оформлення замовлення`, `ФІБ`, `Місто проживання`, `РНОКПП`, `Номер паспорта`, `Номер телефона`, VIN) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
         query.addBindValue(employee_id);
         query.addBindValue(brand);
         query.addBindValue(ui->lineEdit_5->text());
@@ -428,6 +437,7 @@ void MainWindow::on_pushButton_2_clicked()
         query.addBindValue(ui->lineEdit_16->text());
         query.addBindValue(ui->lineEdit_17->text());
         query.addBindValue(ui->lineEdit_18->text());
+        query.addBindValue(ui->lineEdit->text());
 
         if(!query.exec()) {
             qDebug() << "Insert query failed: " << query.lastError();
@@ -444,7 +454,10 @@ void MainWindow::on_pushButton_5_clicked()
 
 void MainWindow::on_pushButton_7_clicked()
 {
+
     Insert_info_to_the_table();
+    ui->stackedWidget->setCurrentIndex(0);
+    ui->stackedWidget->show();
     QDateTime currentDateTime = QDateTime::currentDateTime();
     QStringList orderInfo = {
         "<b>Комплектація:</b> " + ui->lineEdit_3->text(),
@@ -457,7 +470,7 @@ void MainWindow::on_pushButton_7_clicked()
         "<b>Об'єм двигуна:</b> " + ui->lineEdit_8->text(),
         "<b>Витрата палива:</b> " + ui->lineEdit_10->text(),
         "<b>Потужність:</b> " + ui->lineEdit_9->text(),
-        "<b>VIN:</b> " + ui->lineEdit_19->text(),
+        "<b>VIN:</b> " + ui->lineEdit->text(),
         "<b>Ціна:</b> " + ui->lineEdit_13->text()
     };
     QString confirmationText = "<h2>Підтвердження замовлення:</h2><br>";
@@ -486,64 +499,64 @@ void MainWindow::on_pushButton_7_clicked()
 
 void MainWindow::create_graphic(QStringList x,  QStringList y1)
 {
-    QStringList categories;
+
+    if(ui->widget->layout() != nullptr) {
+        QLayoutItem* item;
+        while ( ( item = ui->widget->layout()->takeAt( 0 ) ) != nullptr )
+        {
+            delete item->widget();
+            delete item;
+        }
+        delete ui->widget->layout();
+    }
+
     int max_y = 0;
-    chart = new QChart();
-    series = new QBarSeries();
+    QChart *chart = new QChart();
+    QBarSeries *series = new QBarSeries();
 
     for(int i=0; i < x.count(); i++)
     {
-        int y;
-        y=y1[i].toInt();
-
+        int y = y1[i].toInt();
         if(y > max_y) {
             max_y = y;
         }
 
-        set = new QBarSet(x[i]);
+        QBarSet *set = new QBarSet(x[i]);
         *set << y;
-        QColor color = QColor::fromHsv((i * 360) / x.count(), 255, 255); // Установите цвет здесь
+        QColor color = QColor::fromHsv((i * 360) / x.count(), 255, 255);
         set->setColor(color);
         series->append(set);
     }
 
     chart->addSeries(series);
-    axisX = new QBarCategoryAxis();
+    QBarCategoryAxis *axisX = new QBarCategoryAxis();
     if(ui->toolBox->currentIndex()==0)
     {
         axisX->append("Кількість проданих автомобілей (по маркам)");
     }
     chart->setAxisX(axisX);
 
-    axisY = new QValueAxis();
+    QValueAxis *axisY = new QValueAxis();
     axisY->setRange(0, max_y);
     axisY->setTickType(QValueAxis::TicksFixed);
     axisY->setTickCount(max_y + 1);
     chart->setAxisY(axisY);
 
-    chartView = new QChartView(chart);
+    QChartView *chartView = new QChartView(chart);
     chartView->setRenderHint(QPainter::Antialiasing);
 
     QVBoxLayout *layout = new QVBoxLayout();
     layout->addWidget(chartView);
-    if(ui->widget->layout() != nullptr && ui->widget->layout()->count() != 0) {
-        delete ui->widget->layout();
-    }
 
     ui->widget->setLayout(layout);
 }
-
-
 
 
 void MainWindow::on_radioButton_2_clicked()
 {
 
     QSqlQuery query;
-    qDebug() << "dsgsgssdgsg";
     QStringList brand;
-
-    // Select distinct brands from the table
     query.prepare("SELECT DISTINCT Марка FROM zamovlennya");
     if(query.exec()) {
         while(query.next())
@@ -558,7 +571,7 @@ void MainWindow::on_radioButton_2_clicked()
     QStringList y1;
     for(int i=0; i < brand.count(); i++)
     {
-        // Count the number of records for each brand
+
         query.prepare("SELECT COUNT(*) FROM zamovlennya WHERE Марка = :brand");
         query.bindValue(":brand", brand[i]);
         if(query.exec() && query.next()) {
@@ -690,7 +703,7 @@ void MainWindow::falsefilter(QPushButton *button)
 {
     QSqlQuery query;
 
-    QSqlTableModel *model = new QSqlTableModel;
+        QSqlTableModel *model = new QSqlTableModel;
     QString textfrombutton = button -> text();
 
     QRegularExpression re("(\\d+)");
@@ -756,7 +769,7 @@ void MainWindow::SetTable(QSqlTableModel *model)
     ui->tableView->setEditTriggers(QAbstractItemView::NoEditTriggers);
     ui->tableView->setModel(model);
     ui->tableView->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
-    //ui->tableView->setColumnHidden(3, true);
+    ui->tableView->setColumnHidden(0, true);
 }
 
 
@@ -790,5 +803,31 @@ void MainWindow::on_pushButton_8_clicked()
     }
     qDebug() << y;
     create_graphic(date, y);
+}
+
+
+void MainWindow::on_radioButton_4_clicked()
+{
+        QSqlQuery query;
+    QStringList countofprice;
+        QStringList price;
+    query.prepare("SELECT COUNT(*), `Ціна` FROM zamovlennya GROUP BY `Ціна`");
+        if(query.exec()) {
+            while(query.next()) {
+                QString y = query.value(0).toString();
+                QString x =  query.value(1).toString();
+                countofprice.append(y);
+                price.append(x);
+            }
+        }
+        qDebug()<< countofprice;
+         qDebug()<< price;
+        create_graphic(price,countofprice);
+}
+
+
+void MainWindow::on_pushButton_6_clicked()
+{
+    this->close();
 }
 

@@ -37,6 +37,7 @@ public slots:
      void SetTable(QSqlTableModel *model);
      void mainfilter(QPushButton *button);
      void falsefilter(QPushButton *button);
+
 private slots:
 
     void on_radioButton_2_clicked();
@@ -68,9 +69,16 @@ private slots:
 
     void on_pushButton_8_clicked();
 
+    void on_radioButton_4_clicked();
+
+    void on_pushButton_6_clicked();
+
 private:
 
    Ui::MainWindow *ui;
+
+
+
     QLineEdit *vid = new QLineEdit();
     QLineEdit *do_1= new QLineEdit();
     QLabel *filter = new QLabel();

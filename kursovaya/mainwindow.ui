@@ -58,7 +58,7 @@
        <string notr="true">font: italic 14pt &quot;Times New Roman&quot;;</string>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="tab">
        <attribute name="title">
@@ -76,19 +76,10 @@
              <x>0</x>
              <y>0</y>
              <width>341</width>
-             <height>791</height>
+             <height>729</height>
             </rect>
            </property>
            <layout class="QGridLayout" name="gridLayout_9">
-            <item row="1" column="0">
-             <widget class="QComboBox" name="comboBox_2"/>
-            </item>
-            <item row="7" column="0">
-             <widget class="QLineEdit" name="lineEdit_21"/>
-            </item>
-            <item row="17" column="0">
-             <widget class="QLineEdit" name="lineEdit_27"/>
-            </item>
             <item row="0" column="0">
              <widget class="QLabel" name="label_4">
               <property name="styleSheet">
@@ -99,19 +90,6 @@
               </property>
              </widget>
             </item>
-            <item row="3" column="0">
-             <widget class="QComboBox" name="comboBox"/>
-            </item>
-            <item row="11" column="0">
-             <widget class="QLineEdit" name="lineEdit_23"/>
-            </item>
-            <item row="6" column="0">
-             <widget class="QLabel" name="label_12">
-              <property name="text">
-               <string>Кількість дверей</string>
-              </property>
-             </widget>
-            </item>
             <item row="18" column="0">
              <widget class="QLabel" name="label_30">
               <property name="text">
@@ -119,12 +97,46 @@
               </property>
              </widget>
             </item>
-            <item row="22" column="0">
-             <widget class="QLabel" name="label_2">
+            <item row="12" column="0">
+             <widget class="QLabel" name="label_27">
               <property name="text">
-               <string>Ціна</string>
+               <string>Потужність</string>
               </property>
              </widget>
+            </item>
+            <item row="10" column="0">
+             <widget class="QLabel" name="label_26">
+              <property name="text">
+               <string>Об'єм двигуна</string>
+              </property>
+             </widget>
+            </item>
+            <item row="16" column="0">
+             <widget class="QLabel" name="label_29">
+              <property name="text">
+               <string>Тип палива</string>
+              </property>
+             </widget>
+            </item>
+            <item row="5" column="0">
+             <widget class="QLineEdit" name="lineEdit_20">
+              <property name="contextMenuPolicy">
+               <enum>Qt::DefaultContextMenu</enum>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="0">
+             <widget class="QComboBox" name="comboBox"/>
+            </item>
+            <item row="4" column="0">
+             <widget class="QLabel" name="label_11">
+              <property name="text">
+               <string>Колір</string>
+              </property>
+             </widget>
+            </item>
+            <item row="22" column="0">
+             <widget class="QLineEdit" name="lineEdit_2"/>
             </item>
             <item row="14" column="0">
              <widget class="QLabel" name="label_28">
@@ -133,13 +145,20 @@
               </property>
              </widget>
             </item>
-            <item row="15" column="0">
-             <widget class="QLineEdit" name="lineEdit_25"/>
+            <item row="6" column="0">
+             <widget class="QLabel" name="label_12">
+              <property name="text">
+               <string>Кількість дверей</string>
+              </property>
+             </widget>
             </item>
-            <item row="5" column="0">
-             <widget class="QLineEdit" name="lineEdit_20">
-              <property name="contextMenuPolicy">
-               <enum>Qt::DefaultContextMenu</enum>
+            <item row="7" column="0">
+             <widget class="QLineEdit" name="lineEdit_21"/>
+            </item>
+            <item row="21" column="0">
+             <widget class="QLabel" name="label_2">
+              <property name="text">
+               <string>Ціна</string>
               </property>
              </widget>
             </item>
@@ -150,8 +169,24 @@
               </property>
              </widget>
             </item>
+            <item row="11" column="0">
+             <widget class="QLineEdit" name="lineEdit_23"/>
+            </item>
+            <item row="9" column="0">
+             <widget class="QLineEdit" name="lineEdit_22"/>
+            </item>
             <item row="13" column="0">
              <widget class="QLineEdit" name="lineEdit_24"/>
+            </item>
+            <item row="23" column="0">
+             <widget class="QPushButton" name="pushButton">
+              <property name="text">
+               <string>Додати до замовлення</string>
+              </property>
+             </widget>
+            </item>
+            <item row="15" column="0">
+             <widget class="QLineEdit" name="lineEdit_25"/>
             </item>
             <item row="2" column="0">
              <widget class="QLabel" name="label">
@@ -163,59 +198,14 @@
               </property>
              </widget>
             </item>
-            <item row="16" column="0">
-             <widget class="QLabel" name="label_29">
-              <property name="text">
-               <string>Тип палива</string>
-              </property>
-             </widget>
+            <item row="1" column="0">
+             <widget class="QComboBox" name="comboBox_2"/>
             </item>
             <item row="20" column="0">
-             <widget class="QLabel" name="label_31">
-              <property name="text">
-               <string>VIN</string>
-              </property>
-             </widget>
+             <widget class="QLineEdit" name="lineEdit_27"/>
             </item>
-            <item row="23" column="0">
-             <widget class="QLineEdit" name="lineEdit_2"/>
-            </item>
-            <item row="21" column="0">
-             <widget class="QLineEdit" name="lineEdit_28"/>
-            </item>
-            <item row="19" column="0">
+            <item row="17" column="0">
              <widget class="QLineEdit" name="lineEdit_26"/>
-            </item>
-            <item row="9" column="0">
-             <widget class="QLineEdit" name="lineEdit_22"/>
-            </item>
-            <item row="4" column="0">
-             <widget class="QLabel" name="label_11">
-              <property name="text">
-               <string>Колір</string>
-              </property>
-             </widget>
-            </item>
-            <item row="10" column="0">
-             <widget class="QLabel" name="label_26">
-              <property name="text">
-               <string>Об'єм двигуна</string>
-              </property>
-             </widget>
-            </item>
-            <item row="12" column="0">
-             <widget class="QLabel" name="label_27">
-              <property name="text">
-               <string>Потужність</string>
-              </property>
-             </widget>
-            </item>
-            <item row="24" column="0">
-             <widget class="QPushButton" name="pushButton">
-              <property name="text">
-               <string>Додати до замовлення</string>
-              </property>
-             </widget>
             </item>
            </layout>
           </widget>
@@ -261,6 +251,13 @@
           <layout class="QGridLayout" name="gridLayout_7">
            <item row="0" column="0">
             <widget class="QTableView" name="tableView"/>
+           </item>
+           <item row="1" column="0">
+            <widget class="QPushButton" name="pushButton_9">
+             <property name="text">
+              <string>Додати автомобіль</string>
+             </property>
+            </widget>
            </item>
           </layout>
          </widget>
@@ -328,7 +325,7 @@
                <item row="0" column="0">
                 <widget class="QPushButton" name="pushButton_4">
                  <property name="text">
-                  <string>Зміна даних</string>
+                  <string>Інформація про аккаунт</string>
                  </property>
                 </widget>
                </item>
@@ -348,6 +345,13 @@
                <string/>
               </property>
               <layout class="QGridLayout" name="gridLayout_4">
+               <item row="7" column="4">
+                <widget class="QLineEdit" name="lineEdit_10">
+                 <property name="text">
+                  <string/>
+                 </property>
+                </widget>
+               </item>
                <item row="1" column="2" colspan="3">
                 <widget class="QLineEdit" name="lineEdit_4">
                  <property name="text">
@@ -355,38 +359,17 @@
                  </property>
                 </widget>
                </item>
-               <item row="4" column="4">
-                <widget class="QLineEdit" name="lineEdit_7">
+               <item row="7" column="1" colspan="3">
+                <widget class="QLabel" name="label_14">
                  <property name="text">
-                  <string/>
+                  <string>Витрата палива</string>
                  </property>
                 </widget>
                </item>
-               <item row="6" column="1">
-                <widget class="QLabel" name="label_13">
+               <item row="0" column="1">
+                <widget class="QLabel" name="label_3">
                  <property name="text">
-                  <string>Потужність</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="5" column="4">
-                <widget class="QLineEdit" name="lineEdit_8">
-                 <property name="text">
-                  <string/>
-                 </property>
-                </widget>
-               </item>
-               <item row="8" column="4">
-                <widget class="QLineEdit" name="lineEdit_11">
-                 <property name="text">
-                  <string/>
-                 </property>
-                </widget>
-               </item>
-               <item row="5" column="1">
-                <widget class="QLabel" name="label_9">
-                 <property name="text">
-                  <string>Об'єм двигуна</string>
+                  <string>Комплектація</string>
                  </property>
                 </widget>
                </item>
@@ -397,10 +380,55 @@
                  </property>
                 </widget>
                </item>
-               <item row="2" column="1">
-                <widget class="QLabel" name="label_6">
+               <item row="11" column="4">
+                <widget class="QLineEdit" name="lineEdit_13"/>
+               </item>
+               <item row="1" column="1">
+                <widget class="QLabel" name="label_5">
                  <property name="text">
-                  <string>Модель</string>
+                  <string>Колір</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="8" column="4">
+                <widget class="QLineEdit" name="lineEdit_11">
+                 <property name="text">
+                  <string/>
+                 </property>
+                </widget>
+               </item>
+               <item row="9" column="1">
+                <widget class="QLabel" name="label_16">
+                 <property name="text">
+                  <string>Тип КПП</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="6" column="1">
+                <widget class="QLabel" name="label_13">
+                 <property name="text">
+                  <string>Потужність</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="4" column="1" colspan="2">
+                <widget class="QLabel" name="label_8">
+                 <property name="text">
+                  <string>Кількість місць</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="11" column="1">
+                <widget class="QLabel" name="label_17">
+                 <property name="text">
+                  <string>Ціна</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="2" colspan="3">
+                <widget class="QLineEdit" name="lineEdit_5">
+                 <property name="text">
+                  <string/>
                  </property>
                 </widget>
                </item>
@@ -411,15 +439,8 @@
                  </property>
                 </widget>
                </item>
-               <item row="1" column="1">
-                <widget class="QLabel" name="label_5">
-                 <property name="text">
-                  <string>Колір</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="2" column="2" colspan="3">
-                <widget class="QLineEdit" name="lineEdit_5">
+               <item row="0" column="2" colspan="3">
+                <widget class="QLineEdit" name="lineEdit_3">
                  <property name="text">
                   <string/>
                  </property>
@@ -432,41 +453,24 @@
                  </property>
                 </widget>
                </item>
-               <item row="0" column="2" colspan="3">
-                <widget class="QLineEdit" name="lineEdit_3">
+               <item row="5" column="4">
+                <widget class="QLineEdit" name="lineEdit_8">
                  <property name="text">
                   <string/>
                  </property>
                 </widget>
                </item>
-               <item row="4" column="1" colspan="2">
-                <widget class="QLabel" name="label_8">
+               <item row="5" column="1">
+                <widget class="QLabel" name="label_9">
                  <property name="text">
-                  <string>Кількість місць</string>
+                  <string>Об'єм двигуна</string>
                  </property>
                 </widget>
                </item>
-               <item row="9" column="1">
-                <widget class="QLabel" name="label_16">
+               <item row="2" column="1">
+                <widget class="QLabel" name="label_6">
                  <property name="text">
-                  <string>Тип КПП</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="11" column="4">
-                <widget class="QLineEdit" name="lineEdit_19"/>
-               </item>
-               <item row="7" column="4">
-                <widget class="QLineEdit" name="lineEdit_10">
-                 <property name="text">
-                  <string/>
-                 </property>
-                </widget>
-               </item>
-               <item row="7" column="1" colspan="3">
-                <widget class="QLabel" name="label_14">
-                 <property name="text">
-                  <string>Витрата палива</string>
+                  <string>Модель</string>
                  </property>
                 </widget>
                </item>
@@ -484,27 +488,10 @@
                  </property>
                 </widget>
                </item>
-               <item row="0" column="1">
-                <widget class="QLabel" name="label_3">
+               <item row="4" column="4">
+                <widget class="QLineEdit" name="lineEdit_7">
                  <property name="text">
-                  <string>Комплектація</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="12" column="4">
-                <widget class="QLineEdit" name="lineEdit_13"/>
-               </item>
-               <item row="12" column="1">
-                <widget class="QLabel" name="label_17">
-                 <property name="text">
-                  <string>Ціна</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="11" column="1">
-                <widget class="QLabel" name="label_10">
-                 <property name="text">
-                  <string>VIN</string>
+                  <string/>
                  </property>
                 </widget>
                </item>
@@ -528,108 +515,6 @@
           </widget>
           <widget class="QWidget" name="page_2">
            <layout class="QGridLayout" name="gridLayout_16">
-            <item row="2" column="1" rowspan="2" colspan="3">
-             <layout class="QGridLayout" name="gridLayout_13">
-              <item row="2" column="0">
-               <widget class="QGroupBox" name="groupBox_6">
-                <property name="maximumSize">
-                 <size>
-                  <width>400</width>
-                  <height>400</height>
-                 </size>
-                </property>
-                <property name="layoutDirection">
-                 <enum>Qt::LeftToRight</enum>
-                </property>
-                <property name="title">
-                 <string/>
-                </property>
-                <property name="alignment">
-                 <set>Qt::AlignCenter</set>
-                </property>
-                <layout class="QGridLayout" name="gridLayout_11">
-                 <item row="5" column="0">
-                  <widget class="QLineEdit" name="lineEdit_15"/>
-                 </item>
-                 <item row="2" column="0">
-                  <widget class="QLabel" name="label_19">
-                   <property name="text">
-                    <string>ФІБ</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="3" column="0">
-                  <widget class="QLineEdit" name="lineEdit_14"/>
-                 </item>
-                 <item row="6" column="0">
-                  <widget class="QLabel" name="label_21">
-                   <property name="text">
-                    <string>РНОКПП</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="11" column="0">
-                  <widget class="QLineEdit" name="lineEdit_18"/>
-                 </item>
-                 <item row="4" column="0">
-                  <widget class="QLabel" name="label_20">
-                   <property name="text">
-                    <string>Місто проживання</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="9" column="0">
-                  <widget class="QLineEdit" name="lineEdit_17"/>
-                 </item>
-                 <item row="12" column="0">
-                  <widget class="QPushButton" name="pushButton_7">
-                   <property name="text">
-                    <string>Підтвердити замовлення</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="10" column="0">
-                  <widget class="QLabel" name="label_23">
-                   <property name="text">
-                    <string>Номер телефона</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="8" column="0">
-                  <widget class="QLabel" name="label_22">
-                   <property name="text">
-                    <string>Номер паспорта</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="1" column="0">
-                  <widget class="QLabel" name="label_18">
-                   <property name="layoutDirection">
-                    <enum>Qt::LeftToRight</enum>
-                   </property>
-                   <property name="text">
-                    <string> Дані про покупця</string>
-                   </property>
-                   <property name="alignment">
-                    <set>Qt::AlignCenter</set>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="7" column="0">
-                  <widget class="QLineEdit" name="lineEdit_16"/>
-                 </item>
-                </layout>
-               </widget>
-              </item>
-             </layout>
-            </item>
-            <item row="0" column="2">
-             <widget class="QLabel" name="label_24">
-              <property name="text">
-               <string>Повернутися назад</string>
-              </property>
-             </widget>
-            </item>
             <item row="0" column="1">
              <widget class="QPushButton" name="pushButton_5">
               <property name="maximumSize">
@@ -648,6 +533,118 @@
                <number>0</number>
               </property>
              </widget>
+            </item>
+            <item row="0" column="2">
+             <widget class="QLabel" name="label_24">
+              <property name="text">
+               <string>Повернутися назад</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="1" rowspan="2" colspan="3">
+             <layout class="QGridLayout" name="gridLayout_13">
+              <item row="2" column="0">
+               <widget class="QGroupBox" name="groupBox_6">
+                <property name="maximumSize">
+                 <size>
+                  <width>400</width>
+                  <height>470</height>
+                 </size>
+                </property>
+                <property name="layoutDirection">
+                 <enum>Qt::LeftToRight</enum>
+                </property>
+                <property name="title">
+                 <string/>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+                <layout class="QGridLayout" name="gridLayout_11">
+                 <item row="2" column="0">
+                  <widget class="QLabel" name="label_19">
+                   <property name="text">
+                    <string>ФІБ</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="13" column="0">
+                  <widget class="QLineEdit" name="lineEdit"/>
+                 </item>
+                 <item row="10" column="0">
+                  <widget class="QLabel" name="label_23">
+                   <property name="text">
+                    <string>Номер телефона</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="4" column="0">
+                  <widget class="QLabel" name="label_20">
+                   <property name="text">
+                    <string>Місто проживання</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="6" column="0">
+                  <widget class="QLabel" name="label_21">
+                   <property name="text">
+                    <string>РНОКПП</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="11" column="0">
+                  <widget class="QLineEdit" name="lineEdit_18"/>
+                 </item>
+                 <item row="3" column="0">
+                  <widget class="QLineEdit" name="lineEdit_14"/>
+                 </item>
+                 <item row="14" column="0">
+                  <widget class="QPushButton" name="pushButton_7">
+                   <property name="text">
+                    <string>Підтвердити замовлення</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="9" column="0">
+                  <widget class="QLineEdit" name="lineEdit_17"/>
+                 </item>
+                 <item row="7" column="0">
+                  <widget class="QLineEdit" name="lineEdit_16"/>
+                 </item>
+                 <item row="5" column="0">
+                  <widget class="QLineEdit" name="lineEdit_15"/>
+                 </item>
+                 <item row="8" column="0">
+                  <widget class="QLabel" name="label_22">
+                   <property name="text">
+                    <string>Номер паспорта</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="12" column="0">
+                  <widget class="QLabel" name="label_10">
+                   <property name="text">
+                    <string>VIN</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="0" column="0">
+                  <widget class="QLabel" name="label_18">
+                   <property name="layoutDirection">
+                    <enum>Qt::LeftToRight</enum>
+                   </property>
+                   <property name="text">
+                    <string> Дані про покупця</string>
+                   </property>
+                   <property name="alignment">
+                    <set>Qt::AlignCenter</set>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+             </layout>
             </item>
            </layout>
           </widget>
@@ -679,7 +676,7 @@
            </size>
           </property>
           <property name="currentIndex">
-           <number>1</number>
+           <number>0</number>
           </property>
           <widget class="QWidget" name="page_5">
            <property name="geometry">
@@ -722,8 +719,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>1006</width>
-             <height>145</height>
+             <width>100</width>
+             <height>30</height>
             </rect>
            </property>
            <attribute name="label">
@@ -748,8 +745,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>1006</width>
-             <height>145</height>
+             <width>332</width>
+             <height>82</height>
             </rect>
            </property>
            <attribute name="label">
@@ -773,7 +770,7 @@
               </property>
               <property name="dateTime">
                <datetime>
-                <hour>21</hour>
+                <hour>0</hour>
                 <minute>0</minute>
                 <second>0</second>
                 <year>2023</year>
@@ -819,7 +816,7 @@
               </property>
               <property name="dateTime">
                <datetime>
-                <hour>21</hour>
+                <hour>0</hour>
                 <minute>0</minute>
                 <second>0</second>
                 <year>2023</year>

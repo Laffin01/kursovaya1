@@ -83,7 +83,7 @@ void Mainmenu::on_autorization_clicked()
             Mainmenu::check_number=ui->namelabel->text();
             qDebug()<<check_number;
             w.show();
-            //this->hide();
+            this->close();
         } else {
             QMessageBox::warning(this, "Предупреждение", "Неверное имя пользователя или пароль.");
         }
